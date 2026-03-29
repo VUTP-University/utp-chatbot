@@ -77,6 +77,34 @@
     "disclaimer": "Answers are AI-generated and may not always be accurate. Verify important information with the university."
   },
   "footer": {
-    "copyright": "© {{year}} Universidad Tecnológica de Panamá. All rights reserved."
+    "copyright": "© {{year}} VUTП. All rights reserved.",
+    "tagline": "AI-powered assistant for students and applicants at VUTП.",
+    "usefulLinks": "Useful Links",
+    "project": "Project",
+    "links": {
+      "admissions": "Admissions",
+      "programs":   "Programs",
+      "schedule":   "Schedule",
+      "about":      "About the project",
+      "github":     "GitHub"
+    }
+  },
+  "about": {
+    "badge": "About the project",
+    "title": "What is the VUTП ChatBot?",
+    "subtitle": "An open-source AI assistant built to help students, applicants, and anyone curious about the University of Telecommunications and Post find answers instantly.",
+    "whatTitle": "About the assistant",
+    "whatBody": "The VUTП ChatBot is an AI-powered virtual assistant integrated with the university's knowledge base. It answers questions about programs, admissions, fees, schedules, and campus life — 24/7, in Bulgarian and English, with no registration required.",
+    "goalsTitle": "Project goals",
+    "goals": [
+      "Reduce the workload on administrative staff by automating repetitive FAQ responses",
+      "Provide prospective and current students with instant, accurate information",
+      "Make university information accessible at any time, from any device",
+      "Serve as a reference implementation for AI-powered education tools"
+    ],
+    "techTitle": "Technology stack",
+    "openSourceTitle": "Open source",
+    "openSourceBody": "The project is fully open source. Contributions, bug reports, and feature requests are welcome on GitHub.",
+    "openSourceCta": "View on GitHub"
   }
 }
