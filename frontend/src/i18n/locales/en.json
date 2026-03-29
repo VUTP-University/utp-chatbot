@@ -64,6 +64,18 @@
     "subtitle": "The assistant is ready right now. Ask about programs, fees, deadlines, or anything else.",
     "button": "Start Chatting"
   },
+  "chat": {
+    "title": "VUTП Assistant",
+    "online": "Online",
+    "newChat": "New chat",
+    "backHome": "Back",
+    "placeholder": "Ask me anything about VUTП…",
+    "send": "Send",
+    "emptyTitle": "How can I help you?",
+    "emptySubtitle": "Ask me anything about programs, admissions, fees, deadlines, or campus life.",
+    "error": "Something went wrong. Please try again.",
+    "disclaimer": "Answers are AI-generated and may not always be accurate. Verify important information with the university."
+  },
   "footer": {
     "copyright": "© {{year}} Universidad Tecnológica de Panamá. All rights reserved."
   }
