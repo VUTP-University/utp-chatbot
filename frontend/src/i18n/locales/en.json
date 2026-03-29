@@ -1,0 +1,70 @@
+{
+  "nav": {
+    "brand": "VUTП",
+    "features": "Features",
+    "howItWorks": "How it works",
+    "openChat": "Open Chat"
+  },
+  "hero": {
+    "badge": "AI-Powered University Assistant",
+    "headline": "Your smartest guide to",
+    "headlineHighlight": "UTP University",
+    "subtext": "Get instant answers about admissions, programs, deadlines, campus life, and everything else UTP has to offer — available anytime, no waiting.",
+    "ctaChat": "Start Chatting",
+    "ctaLearn": "Learn more",
+    "disclaimer": "No account needed · Free to use · Always available"
+  },
+  "preview": {
+    "title": "UTP Assistant",
+    "online": "Online",
+    "placeholder": "Ask me anything…",
+    "messages": [
+      { "role": "bot",  "text": "Hello! I'm the UTP assistant. How can I help you today?" },
+      { "role": "user", "text": "What are the admission requirements for Computer Science?" },
+      { "role": "bot",  "text": "For Computer Science at UTP you'll need a high school diploma with a minimum GPA of 3.0, math and science scores, and to complete the entrance exam. Would you like details on the application process?" },
+      { "role": "user", "text": "Yes, when is the next deadline?" }
+    ]
+  },
+  "features": {
+    "badge": "Features",
+    "title": "Everything you need, instantly",
+    "subtitle": "The UTP ChatBot is designed to be your first stop for any university-related question.",
+    "items": [
+      {
+        "title": "University Knowledge",
+        "desc": "Get instant answers about programs, courses, faculty, deadlines, and campus life — all sourced directly from UTP's official information."
+      },
+      {
+        "title": "Available 24/7",
+        "desc": "No need to wait for office hours. Ask anything at any time and get accurate, helpful answers in seconds."
+      },
+      {
+        "title": "AI-Powered",
+        "desc": "Powered by cutting-edge AI, the chatbot understands natural language so you can ask questions just like you would to a person."
+      },
+      {
+        "title": "Reliable & Accurate",
+        "desc": "Built on verified university data to ensure the information you receive is trustworthy and up to date."
+      }
+    ]
+  },
+  "howItWorks": {
+    "badge": "How it works",
+    "title": "Three steps to your answer",
+    "subtitle": "No setup. No sign-up. Just ask.",
+    "steps": [
+      { "number": "01", "title": "Open the Chat",        "desc": "Click 'Start Chatting' to open the assistant — no account needed." },
+      { "number": "02", "title": "Ask Your Question",    "desc": "Type anything: admissions, schedules, programs, fees, or campus services." },
+      { "number": "03", "title": "Get an Instant Answer","desc": "Receive a clear, accurate response in seconds backed by UTP's knowledge base." }
+    ]
+  },
+  "cta": {
+    "badge": "Ready to start?",
+    "title": "Have a question about UTP?",
+    "subtitle": "The assistant is ready right now. Ask about programs, fees, deadlines, or anything else.",
+    "button": "Start Chatting"
+  },
+  "footer": {
+    "copyright": "© {{year}} Universidad Tecnológica de Panamá. All rights reserved."
+  }
+}
