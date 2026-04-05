@@ -1,7 +1,12 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 
 function generateSessionId() {
   return crypto.randomUUID()
+}
+
+function closeSession(id) {
+  // sendBeacon is fire-and-forget and survives page unload unlike fetch
+  navigator.sendBeacon(`/api/history/${id}`)
 }
 
 export function useChat() {
@@ -9,6 +14,14 @@ export function useChat() {
   const [messages, setMessages] = useState([]) // { role: 'user'|'bot', text, timestamp }
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  // Close the session when the user leaves the page
+  useEffect(() => {
+    const handleUnload = () => closeSession(sessionId.current)
+
+    window.addEventListener('beforeunload', handleUnload)
+    return () => window.removeEventListener('beforeunload', handleUnload)
+  }, [])
 
   const sendMessage = useCallback(async (text) => {
     const userMsg = { role: 'user', text, timestamp: new Date().toISOString() }
@@ -39,7 +52,6 @@ export function useChat() {
   }, [])
 
   const clearChat = useCallback(() => {
-    // Mark the current session as closed on the backend, then start a fresh one
     fetch(`/api/history/${sessionId.current}`, { method: 'DELETE' }).catch(() => {})
     sessionId.current = generateSessionId()
     setMessages([])

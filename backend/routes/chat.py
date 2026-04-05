@@ -46,7 +46,7 @@ def history(session_id):
     return jsonify({"session_id": session_id, "messages": messages})
 
 
-@chat_bp.route("/history/<session_id>", methods=["DELETE"])
+@chat_bp.route("/history/<session_id>", methods=["DELETE", "POST"])
 def clear(session_id):
     clear_history(session_id)
     return jsonify({"message": "History cleared", "session_id": session_id})
