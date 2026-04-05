@@ -39,6 +39,7 @@ export function useChat() {
   }, [])
 
   const clearChat = useCallback(() => {
+    // Mark the current session as closed on the backend, then start a fresh one
     fetch(`/api/history/${sessionId.current}`, { method: 'DELETE' }).catch(() => {})
     sessionId.current = generateSessionId()
     setMessages([])

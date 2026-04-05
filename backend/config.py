@@ -10,7 +10,9 @@ class Config:
     DO_AGENT_ENDPOINT = os.getenv("DO_AGENT_ENDPOINT", "")
     DO_AGENT_ACCESS_KEY = os.getenv("DO_AGENT_ACCESS_KEY", "")
 
-    # How many messages to keep per session (in-memory)
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
     MAX_HISTORY_PER_SESSION = 50
 
 
