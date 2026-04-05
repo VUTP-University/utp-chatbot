@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: utp_chatbot_db
+    hostname: utp_chatbot_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-utp_chatbot}
+      POSTGRES_USER: ${POSTGRES_USER:-utp_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-utp_secret}
+      TZ: Europe/Sofia
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-utp_user} -d ${POSTGRES_DB:-utp_chatbot}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    driver: local
+    
+networks:
+  default:
+    name: utp_chatbot_network
+    driver: bridge
