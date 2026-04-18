@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import { ChatIcon, SparkleIcon, ArrowIcon, FEATURE_ICONS } from '../components/Icons'
+import { ChatIcon, SparkleIcon, ArrowIcon, BookIcon, ClockIcon, ShieldIcon } from '../components/Icons'
+
+const FEATURE_ICONS = [<BookIcon />, <ClockIcon />, <SparkleIcon />, <ShieldIcon />]
 import ChatPreview from '../components/ChatPreview'
 
 export default function Home() {
