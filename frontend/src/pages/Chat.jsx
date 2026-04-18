@@ -4,7 +4,9 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeSanitize from 'rehype-sanitize'
 import { useChat } from '../hooks/useChat'
+import { useBotStatus } from '../hooks/useBotStatus'
 import { ChatIcon, ArrowIcon, SparkleIcon } from '../components/Icons'
+import StatusIndicator from '../components/StatusIndicator'
 
 const SendIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -83,6 +85,7 @@ function Message({ msg }) {
 export default function Chat() {
   const { t, i18n } = useTranslation()
   const { messages, loading, error, sendMessage, clearChat } = useChat()
+  const botStatus = useBotStatus()
   const [input, setInput] = useState('')
   const bottomRef = useRef(null)
   const inputRef = useRef(null)
@@ -121,10 +124,7 @@ export default function Chat() {
             <div style={{ fontWeight: 600, fontSize: '0.95rem', color: 'var(--color-text-heading)' }}>
               {t('chat.title')}
             </div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--color-success)', display: 'flex', alignItems: 'center', gap: 5 }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-success)', display: 'inline-block' }} />
-              {t('chat.online')}
-            </div>
+            <StatusIndicator />
           </div>
         </div>
 
@@ -196,6 +196,21 @@ export default function Chat() {
         </div>
       </div>
 
+      {/* Status banner — shown when bot is offline or connecting */}
+      {botStatus !== 'online' && (
+        <div style={{
+          padding: '10px 24px',
+          background: botStatus === 'offline' ? 'rgba(239,68,68,0.07)' : 'rgba(245,158,11,0.07)',
+          borderTop: `1px solid ${botStatus === 'offline' ? 'rgba(239,68,68,0.2)' : 'rgba(245,158,11,0.2)'}`,
+          color: botStatus === 'offline' ? 'var(--color-danger)' : 'var(--color-warning)',
+          fontSize: '0.85rem',
+          textAlign: 'center',
+          flexShrink: 0,
+        }}>
+          {t(botStatus === 'offline' ? 'chat.errorOffline' : 'chat.errorConnecting')}
+        </div>
+      )}
+
       {/* Input bar */}
       <div style={{ borderTop: '1px solid var(--color-border)', padding: '16px 24px', background: 'var(--color-surface)', flexShrink: 0 }}>
         <div style={{ maxWidth: 760, margin: '0 auto', display: 'flex', gap: 10, alignItems: 'flex-end' }}>
@@ -207,13 +222,13 @@ export default function Chat() {
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            disabled={loading}
+            disabled={loading || botStatus !== 'online'}
             style={{ resize: 'none', minHeight: 44, maxHeight: 160, overflowY: 'auto', lineHeight: 1.5, padding: '10px 14px', field_sizing: 'content' }}
           />
           <button
             className="btn btn-primary"
             onClick={handleSend}
-            disabled={!input.trim() || loading}
+            disabled={!input.trim() || loading || botStatus !== 'online'}
             style={{ padding: '11px 16px', flexShrink: 0, alignSelf: 'flex-end' }}
             aria-label={t('chat.send')}
           >
