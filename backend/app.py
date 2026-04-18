@@ -4,9 +4,11 @@ from config import get_config
 from models import db
 
 
-def create_app():
+def create_app(test_config=None):
     app = Flask(__name__)
     app.config.from_object(get_config())
+    if test_config:
+        app.config.update(test_config)
 
     CORS(app)
     db.init_app(app)
