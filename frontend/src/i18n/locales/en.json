@@ -64,6 +64,11 @@
     "subtitle": "The assistant is ready right now. Ask about programs, fees, deadlines, or anything else.",
     "button": "Start Chatting"
   },
+  "status": {
+    "online":     "Online",
+    "offline":    "Offline",
+    "connecting": "Connecting…"
+  },
   "chat": {
     "title": "VUTП Assistant",
     "online": "Online",
@@ -74,6 +79,8 @@
     "emptyTitle": "How can I help you?",
     "emptySubtitle": "Ask me anything about programs, admissions, fees, deadlines, or campus life.",
     "error": "Something went wrong. Please try again.",
+    "errorOffline": "The assistant is currently offline. Please try again later.",
+    "errorConnecting": "Connecting to the assistant, please wait…",
     "disclaimer": "Answers are AI-generated and may not always be accurate. Verify important information with the university."
   },
   "footer": {

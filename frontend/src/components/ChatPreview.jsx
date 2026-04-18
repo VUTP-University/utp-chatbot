@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { ChatIcon, ArrowIcon } from './Icons'
+import StatusIndicator from './StatusIndicator'
 
 export default function ChatPreview() {
   const { t } = useTranslation()
@@ -14,10 +15,7 @@ export default function ChatPreview() {
         </div>
         <div>
           <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-text-heading)' }}>{t('preview.title')}</div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--color-success)', display: 'flex', alignItems: 'center', gap: 5 }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-success)', display: 'inline-block' }} />
-            {t('preview.online')}
-          </div>
+          <StatusIndicator />
         </div>
       </div>
 
