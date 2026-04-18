@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeSanitize from 'rehype-sanitize'
 import { useChat } from '../hooks/useChat'
 import { ChatIcon, ArrowIcon, SparkleIcon } from '../components/Icons'
 
@@ -61,10 +64,17 @@ function Message({ msg }) {
     <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, justifyContent: isUser ? 'flex-end' : 'flex-start' }}>
       {!isUser && <BotAvatar />}
       <div
-        className={isUser ? 'bubble-user' : 'bubble-bot'}
-        style={{ fontSize: '0.95rem', whiteSpace: 'pre-wrap' }}
+        className={isUser ? 'bubble-user' : 'bubble-bot markdown-body'}
+        style={{ fontSize: '0.95rem' }}
       >
-        {msg.text}
+        {isUser ? msg.text : (
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeSanitize]}
+          >
+            {msg.text}
+          </ReactMarkdown>
+        )}
       </div>
     </div>
   )
