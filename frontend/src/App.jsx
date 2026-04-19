@@ -7,11 +7,16 @@ import About from './pages/About'
 import './App.css'
 
 export default function App() {
-  const [dark, setDark] = useState(() => window.matchMedia('(prefers-color-scheme: dark)').matches)
+  const [dark, setDark] = useState(() => {
+    const saved = localStorage.getItem('theme')
+    if (saved) return saved === 'dark'
+    return false // default: Light
+  })
   const path = window.location.pathname
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark)
+    localStorage.setItem('theme', dark ? 'dark' : 'light')
   }, [dark])
 
   const isChat = path === '/chat'
