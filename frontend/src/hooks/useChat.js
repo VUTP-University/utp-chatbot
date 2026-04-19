@@ -14,6 +14,7 @@ export function useChat() {
   const [messages, setMessages] = useState([]) // { role: 'user'|'bot', text, timestamp }
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [budgetExceeded, setBudgetExceeded] = useState(false)
 
   // Close the session when the user leaves the page
   useEffect(() => {
@@ -38,6 +39,11 @@ export function useChat() {
 
       const data = await res.json()
 
+      if (res.status === 503 && data.reason === 'monthly_budget_exceeded') {
+        setBudgetExceeded(true)
+        return
+      }
+
       if (!res.ok) {
         throw new Error(data.error || 'Request failed')
       }
@@ -56,7 +62,8 @@ export function useChat() {
     sessionId.current = generateSessionId()
     setMessages([])
     setError(null)
+    setBudgetExceeded(false)
   }, [])
 
-  return { messages, loading, error, sendMessage, clearChat }
+  return { messages, loading, error, budgetExceeded, sendMessage, clearChat }
 }

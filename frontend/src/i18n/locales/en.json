@@ -81,6 +81,7 @@
     "error": "Something went wrong. Please try again.",
     "errorOffline": "The assistant is currently offline. Please try again later.",
     "errorConnecting": "Connecting to the assistant, please wait…",
+    "errorBudget": "The assistant is temporarily unavailable. Please try again later.",
     "disclaimer": "Answers are AI-generated and may not always be accurate. Verify important information with the university."
   },
   "footer": {

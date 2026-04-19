@@ -15,6 +15,12 @@ class Config:
 
     MAX_HISTORY_PER_SESSION = 50
 
+    # Budget guard
+    BUDGET_LIMIT_USD = float(os.getenv("BUDGET_LIMIT_USD") or 0)  # 0 = disabled
+    BUDGET_WARN_THRESHOLD = float(os.getenv("BUDGET_WARN_THRESHOLD") or 0.8)
+    BUDGET_CHECK_INTERVAL_MINUTES = int(os.getenv("BUDGET_CHECK_INTERVAL_MINUTES") or 60)
+    DO_BILLING_API_KEY = os.getenv("DO_BILLING_API_KEY", "")
+
 
 class DevelopmentConfig(Config):
     DEBUG = True

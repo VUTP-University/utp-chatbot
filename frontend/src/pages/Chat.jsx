@@ -84,7 +84,7 @@ function Message({ msg }) {
 
 export default function Chat() {
   const { t, i18n } = useTranslation()
-  const { messages, loading, error, sendMessage, clearChat } = useChat()
+  const { messages, loading, error, budgetExceeded, sendMessage, clearChat } = useChat()
   const botStatus = useBotStatus()
   const [input, setInput] = useState('')
   const bottomRef = useRef(null)
@@ -196,18 +196,20 @@ export default function Chat() {
         </div>
       </div>
 
-      {/* Status banner — shown when bot is offline or connecting */}
-      {botStatus !== 'online' && (
+      {/* Status banner — shown when bot is offline, connecting, or budget exceeded */}
+      {(botStatus !== 'online' || budgetExceeded) && (
         <div style={{
           padding: '10px 24px',
-          background: botStatus === 'offline' ? 'rgba(239,68,68,0.07)' : 'rgba(245,158,11,0.07)',
-          borderTop: `1px solid ${botStatus === 'offline' ? 'rgba(239,68,68,0.2)' : 'rgba(245,158,11,0.2)'}`,
-          color: botStatus === 'offline' ? 'var(--color-danger)' : 'var(--color-warning)',
+          background: (botStatus === 'offline' || budgetExceeded) ? 'rgba(239,68,68,0.07)' : 'rgba(245,158,11,0.07)',
+          borderTop: `1px solid ${(botStatus === 'offline' || budgetExceeded) ? 'rgba(239,68,68,0.2)' : 'rgba(245,158,11,0.2)'}`,
+          color: (botStatus === 'offline' || budgetExceeded) ? 'var(--color-danger)' : 'var(--color-warning)',
           fontSize: '0.85rem',
           textAlign: 'center',
           flexShrink: 0,
         }}>
-          {t(botStatus === 'offline' ? 'chat.errorOffline' : 'chat.errorConnecting')}
+          {budgetExceeded
+            ? t('chat.errorBudget')
+            : t(botStatus === 'offline' ? 'chat.errorOffline' : 'chat.errorConnecting')}
         </div>
       )}
 
