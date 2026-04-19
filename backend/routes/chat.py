@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify
 from models import db
 from services.agent import ask_agent
 from history import save_message, get_history, clear_history
+from budget import budget_guard
 
 chat_bp = Blueprint("chat", __name__)
 logger = logging.getLogger(__name__)
@@ -23,6 +24,9 @@ def chat():
 
     if not session_id:
         return jsonify({"error": "session_id is required"}), 400
+
+    if budget_guard.exceeded:
+        return jsonify({"error": "service_unavailable", "reason": "monthly_budget_exceeded"}), 503
 
     logger.info("Chat request | session=%s | message_len=%d", session_id, len(message))
 
@@ -54,4 +58,6 @@ def clear(session_id):
 
 @chat_bp.route("/health", methods=["GET"])
 def health():
+    if budget_guard.exceeded:
+        return jsonify({"status": "budget_exceeded"})
     return jsonify({"status": "ok"})

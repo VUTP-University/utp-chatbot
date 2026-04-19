@@ -11,6 +11,7 @@ def app():
         "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
         "DO_AGENT_ENDPOINT": "http://mock-agent",
         "DO_AGENT_ACCESS_KEY": "test-key",
+        "BUDGET_LIMIT_USD": 0,  # disable budget scheduler during tests
     })
 
     with application.app_context():

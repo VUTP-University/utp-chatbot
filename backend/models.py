@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from decimal import Decimal
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -60,3 +61,31 @@ class Message(db.Model):
     
     def __repr__(self):
         return f"<Message id={self.id} session_id={self.session_id} role={self.role} created_at={self.created_at}>"
+
+
+class BudgetCheck(db.Model):
+    """Records the result of every periodic DigitalOcean billing API poll.
+
+    Attributes:
+    - id: Auto-increment primary key.
+    - checked_at: UTC timestamp of when the check ran.
+    - usage_usd: Month-to-date spend reported by the DO Billing API.
+    - limit_usd: The configured budget limit at the time of the check.
+    - exceeded: Whether usage_usd >= limit_usd.
+    - api_reachable: False when the DO Billing API was unreachable; usage_usd is NULL in that case.
+    """
+
+    __tablename__ = "budget_checks"
+
+    id = db.Column(db.Integer, primary_key=True)
+    checked_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+    usage_usd = db.Column(db.Numeric(10, 4), nullable=True)   # NULL when API unreachable
+    limit_usd = db.Column(db.Numeric(10, 4), nullable=False)
+    exceeded = db.Column(db.Boolean, nullable=False)
+    api_reachable = db.Column(db.Boolean, nullable=False, default=True)
+
+    def __repr__(self):
+        return (
+            f"<BudgetCheck id={self.id} checked_at={self.checked_at} "
+            f"usage={self.usage_usd} limit={self.limit_usd} exceeded={self.exceeded}>"
+        )

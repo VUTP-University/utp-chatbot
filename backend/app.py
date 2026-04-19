@@ -16,6 +16,11 @@ def create_app(test_config=None):
     with app.app_context():
         db.create_all()
 
+    if app.config.get("BUDGET_LIMIT_USD"):
+        from budget import budget_guard
+        interval = app.config.get("BUDGET_CHECK_INTERVAL_MINUTES", 60)
+        budget_guard.start_scheduler(app, interval)
+
     @app.teardown_appcontext
     def shutdown_session(exception=None):
         if exception:
