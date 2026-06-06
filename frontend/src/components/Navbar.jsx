@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChatIcon, MoonIcon, SunIcon } from './Icons'
+import { ChatIcon, MoonIcon, SunIcon, MenuIcon, XIcon } from './Icons'
 
 function LangSwitcher() {
   const { i18n } = useTranslation()
@@ -27,6 +27,7 @@ function LangSwitcher() {
 export default function Navbar({ dark, onToggle }) {
   const { t } = useTranslation()
   const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 12)
@@ -34,15 +35,29 @@ export default function Navbar({ dark, onToggle }) {
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
+  useEffect(() => {
+    if (!mobileOpen) return
+    const close = () => setMobileOpen(false)
+    window.addEventListener('scroll', close, { passive: true })
+    return () => window.removeEventListener('scroll', close)
+  }, [mobileOpen])
+
+  const navLinks = [
+    { label: t('nav.features'),   href: '#features'     },
+    { label: t('nav.howItWorks'), href: '#how-it-works' },
+  ]
+
+  const hasBg = scrolled || mobileOpen
+
   return (
     <header
       className="transition-theme"
       style={{
         position: 'sticky', top: 0, zIndex: 50,
-        borderBottom: `1px solid ${scrolled ? 'var(--color-border)' : 'transparent'}`,
-        background: scrolled ? 'var(--color-surface)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
+        borderBottom: `1px solid ${hasBg ? 'var(--color-border)' : 'transparent'}`,
+        background: hasBg ? 'var(--color-surface)' : 'transparent',
+        backdropFilter: scrolled && !mobileOpen ? 'blur(12px)' : 'none',
+        WebkitBackdropFilter: scrolled && !mobileOpen ? 'blur(12px)' : 'none',
       }}
     >
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -56,12 +71,9 @@ export default function Navbar({ dark, onToggle }) {
           </span>
         </a>
 
-        {/* Nav links */}
+        {/* Nav links — desktop only */}
         <nav style={{ display: 'flex', gap: 32, alignItems: 'center' }} className="hide-mobile">
-          {[
-            { label: t('nav.features'),   href: '#features'     },
-            { label: t('nav.howItWorks'), href: '#how-it-works' },
-          ].map(({ label, href }) => (
+          {navLinks.map(({ label, href }) => (
             <a key={href} href={href}
               style={{ fontSize: '0.9rem', fontWeight: 500, color: 'var(--color-text)', transition: 'color 150ms ease' }}
               onMouseEnter={e => e.target.style.color = 'var(--color-text-heading)'}
@@ -81,8 +93,46 @@ export default function Navbar({ dark, onToggle }) {
           <a href="/chat" className="btn btn-primary hide-mobile" style={{ fontSize: '0.85rem', padding: '8px 18px' }}>
             {t('nav.openChat')}
           </a>
+          <button
+            className="btn-icon show-mobile"
+            onClick={() => setMobileOpen(o => !o)}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? <XIcon /> : <MenuIcon />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <nav style={{ background: 'var(--color-surface)', padding: '8px 24px 20px', display: 'flex', flexDirection: 'column' }}>
+          {navLinks.map(({ label, href }) => (
+            <a
+              key={href}
+              href={href}
+              onClick={() => setMobileOpen(false)}
+              style={{
+                fontSize: '1rem', fontWeight: 500, color: 'var(--color-text)',
+                padding: '14px 0', borderBottom: '1px solid var(--color-border)',
+                textDecoration: 'none', display: 'block',
+              }}
+              onMouseEnter={e => e.target.style.color = 'var(--color-text-heading)'}
+              onMouseLeave={e => e.target.style.color = 'var(--color-text)'}
+            >
+              {label}
+            </a>
+          ))}
+          <a
+            href="/chat"
+            className="btn btn-primary"
+            onClick={() => setMobileOpen(false)}
+            style={{ marginTop: 16, fontSize: '0.95rem', justifyContent: 'center' }}
+          >
+            <ChatIcon /> {t('nav.openChat')}
+          </a>
+        </nav>
+      )}
     </header>
   )
 }
