@@ -19,7 +19,7 @@ function HeroSection() {
   const { t } = useTranslation()
 
   return (
-    <section style={{ padding: '96px 24px 80px', position: 'relative', overflow: 'hidden' }}>
+    <section className="hero-section-pad" style={{ position: 'relative', overflow: 'hidden' }}>
       {/* Background blobs */}
       <div aria-hidden style={{ position: 'absolute', top: -120, left: '50%', transform: 'translateX(-60%)', width: 700, height: 700, borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.10) 0%, transparent 70%)', pointerEvents: 'none' }} />
       <div aria-hidden style={{ position: 'absolute', top: 80, right: '5%', width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, rgba(14,165,233,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
@@ -135,7 +135,7 @@ function CTASection() {
   return (
     <section style={{ padding: '80px 24px' }}>
       <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
-        <div style={{ padding: '56px 48px', borderRadius: 'var(--radius-xl)', background: 'linear-gradient(135deg, var(--color-primary-muted) 0%, var(--color-accent-muted) 100%)', border: '1px solid var(--color-primary-border)', position: 'relative', overflow: 'hidden' }}>
+        <div className="cta-box-pad" style={{ borderRadius: 'var(--radius-xl)', background: 'linear-gradient(135deg, var(--color-primary-muted) 0%, var(--color-accent-muted) 100%)', border: '1px solid var(--color-primary-border)', position: 'relative', overflow: 'hidden' }}>
           <div aria-hidden style={{ position: 'absolute', top: -60, right: -60, width: 220, height: 220, borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 70%)', pointerEvents: 'none' }} />
           <div className="badge" style={{ marginBottom: 20, display: 'inline-flex' }}>
             <SparkleIcon /> {t('cta.badge')}

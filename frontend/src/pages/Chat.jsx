@@ -115,7 +115,7 @@ export default function Chat() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100svh - 64px)', background: 'var(--color-background)' }}>
       {/* Top bar */}
-      <div style={{ borderBottom: '1px solid var(--color-border)', padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--color-surface)', flexShrink: 0 }}>
+      <div className="chat-topbar">
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{ width: 34, height: 34, borderRadius: 10, background: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
             <ChatIcon />
@@ -135,18 +135,18 @@ export default function Chat() {
               onClick={clearChat}
               style={{ fontSize: '0.82rem', padding: '7px 14px', gap: 6 }}
             >
-              <TrashIcon /> {t('chat.newChat')}
+              <TrashIcon /> <span className="mobile-hidden-text">{t('chat.newChat')}</span>
             </button>
           )}
           <a href="/" className="btn btn-ghost" style={{ fontSize: '0.82rem', padding: '7px 14px', gap: 6 }}>
-            ← {t('chat.backHome')}
+            ← <span className="mobile-hidden-text">{t('chat.backHome')}</span>
           </a>
         </div>
       </div>
 
       {/* Message area */}
-      <div className="scrollbar-thin" style={{ flex: 1, overflowY: 'auto', padding: '24px', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ maxWidth: 760, width: '100%', margin: '0 auto', flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div className="chat-messages-area scrollbar-thin">
+        <div style={{ width: '100%', flex: 1, display: 'flex', flexDirection: 'column' }}>
 
           {/* Empty state */}
           {isEmpty && (
@@ -214,7 +214,7 @@ export default function Chat() {
       )}
 
       {/* Input bar */}
-      <div style={{ borderTop: '1px solid var(--color-border)', padding: '16px 24px', background: 'var(--color-surface)', flexShrink: 0 }}>
+      <div className="chat-input-bar">
         <div style={{ maxWidth: 760, margin: '0 auto', display: 'flex', gap: 10, alignItems: 'flex-end' }}>
           <textarea
             ref={inputRef}

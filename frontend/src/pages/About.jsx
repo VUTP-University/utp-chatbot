@@ -70,7 +70,7 @@ export default function About() {
 
         {/* Open source CTA */}
         <section>
-          <div style={{ padding: '36px 40px', borderRadius: 'var(--radius-xl)', background: 'linear-gradient(135deg, var(--color-primary-muted) 0%, var(--color-accent-muted) 100%)', border: '1px solid var(--color-primary-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24 }}>
+          <div className="about-oss-box-pad" style={{ borderRadius: 'var(--radius-xl)', background: 'linear-gradient(135deg, var(--color-primary-muted) 0%, var(--color-accent-muted) 100%)', border: '1px solid var(--color-primary-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24 }}>
             <div>
               <h3 style={{ fontSize: '1.15rem', marginBottom: 8 }}>{t('about.openSourceTitle')}</h3>
               <p style={{ color: 'var(--color-text)', fontSize: '0.9rem', lineHeight: 1.65, maxWidth: 480 }}>
@@ -78,7 +78,7 @@ export default function About() {
               </p>
             </div>
             <a
-              href="https://github.com/utp-university-org/utp-chatbot"
+              href="https://github.com/VUTP-University/utp-chatbot"
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-primary"

@@ -9,7 +9,7 @@
     "badge": "AI-Powered University Assistant",
     "headline": "Your smartest guide to",
     "headlineHighlight": "UTP University",
-    "subtext": "Get instant answers about admissions, programs, deadlines, campus life, and everything else UTP has to offer — available anytime, no waiting.",
+    "subtext": "Ask about admissions, programs, deadlines, or how things generally work at UTP — you'll get an answer right away, any time of day.",
     "ctaChat": "Start Chatting",
     "ctaLearn": "Learn more",
     "disclaimer": "No account needed · Free to use · Always available"
@@ -28,40 +28,40 @@
   "features": {
     "badge": "Features",
     "title": "Everything you need, instantly",
-    "subtitle": "The UTP ChatBot is designed to be your first stop for any university-related question.",
+    "subtitle": "One place to ask anything about the university — and actually get a useful answer.",
     "items": [
       {
         "title": "University Knowledge",
-        "desc": "Get instant answers about programs, courses, faculty, deadlines, and campus life — all sourced directly from UTP's official information."
+        "desc": "Ask about programs, courses, deadlines, or faculty — everything comes from UTP's official information."
       },
       {
         "title": "Available 24/7",
-        "desc": "No need to wait for office hours. Ask anything at any time and get accurate, helpful answers in seconds."
+        "desc": "No office hours, no queues. Ask your question whenever it comes up and get an answer straight away."
       },
       {
         "title": "AI-Powered",
-        "desc": "Powered by cutting-edge AI, the chatbot understands natural language so you can ask questions just like you would to a person."
+        "desc": "Just type your question the way you'd say it — no need to phrase things in any special way."
       },
       {
         "title": "Reliable & Accurate",
-        "desc": "Built on verified university data to ensure the information you receive is trustworthy and up to date."
+        "desc": "The information comes from UTP's official sources, so you can trust what you read."
       }
     ]
   },
   "howItWorks": {
     "badge": "How it works",
     "title": "Three steps to your answer",
-    "subtitle": "No setup. No sign-up. Just ask.",
+    "subtitle": "No setup. No account. Just ask.",
     "steps": [
       { "number": "01", "title": "Open the Chat",        "desc": "Click 'Start Chatting' to open the assistant — no account needed." },
       { "number": "02", "title": "Ask Your Question",    "desc": "Type anything: admissions, schedules, programs, fees, or campus services." },
-      { "number": "03", "title": "Get an Instant Answer","desc": "Receive a clear, accurate response in seconds backed by UTP's knowledge base." }
+      { "number": "03", "title": "Get an Instant Answer","desc": "Get a clear answer in seconds, pulled from UTP's official information." }
     ]
   },
   "cta": {
     "badge": "Ready to start?",
     "title": "Have a question about UTP?",
-    "subtitle": "The assistant is ready right now. Ask about programs, fees, deadlines, or anything else.",
+    "subtitle": "It's ready when you are. Ask about programs, fees, deadlines — or whatever's on your mind.",
     "button": "Start Chatting"
   },
   "status": {
@@ -100,19 +100,19 @@
   "about": {
     "badge": "About the project",
     "title": "What is the VUTП ChatBot?",
-    "subtitle": "An open-source AI assistant built to help students, applicants, and anyone curious about the University of Telecommunications and Post find answers instantly.",
+    "subtitle": "An open-source chatbot for students, applicants, and anyone with questions about the University of Telecommunications and Post.",
     "whatTitle": "About the assistant",
-    "whatBody": "The VUTП ChatBot is an AI-powered virtual assistant integrated with the university's knowledge base. It answers questions about programs, admissions, fees, schedules, and campus life — 24/7, in Bulgarian and English, with no registration required.",
+    "whatBody": "The VUTП ChatBot is a virtual assistant that draws on the university's own knowledge base. You can ask about programs, admissions, fees, schedules, and campus life — in Bulgarian or English, around the clock, no login needed.",
     "goalsTitle": "Project goals",
     "goals": [
-      "Reduce the workload on administrative staff by automating repetitive FAQ responses",
-      "Provide prospective and current students with instant, accurate information",
-      "Make university information accessible at any time, from any device",
-      "Serve as a reference implementation for AI-powered education tools"
+      "Take some pressure off administrative staff by handling the questions they answer over and over",
+      "Give students and applicants fast answers without making them wait",
+      "Let anyone check university information any time, from any device",
+      "Show how AI tools can be used practically in a university setting"
     ],
     "techTitle": "Technology stack",
     "openSourceTitle": "Open source",
-    "openSourceBody": "The project is fully open source. Contributions, bug reports, and feature requests are welcome on GitHub.",
+    "openSourceBody": "Everything is open source — if you find a bug, have an idea, or want to contribute, GitHub is the place.",
     "openSourceCta": "View on GitHub"
   }
 }
