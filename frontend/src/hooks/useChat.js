@@ -11,6 +11,7 @@ function closeSession(id) {
 
 export function useChat() {
   const sessionId = useRef(generateSessionId())
+  const lastMessageRef = useRef(null)
   const [messages, setMessages] = useState([]) // { role: 'user'|'bot', text, timestamp }
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -24,9 +25,8 @@ export function useChat() {
     return () => window.removeEventListener('beforeunload', handleUnload)
   }, [])
 
-  const sendMessage = useCallback(async (text) => {
-    const userMsg = { role: 'user', text, timestamp: new Date().toISOString() }
-    setMessages(prev => [...prev, userMsg])
+  // Sends the API request without adding a user message (used by both sendMessage and retryLast)
+  const _sendRequest = useCallback(async (text) => {
     setLoading(true)
     setError(null)
 
@@ -57,13 +57,28 @@ export function useChat() {
     }
   }, [])
 
+  const sendMessage = useCallback(async (text) => {
+    lastMessageRef.current = text
+    const userMsg = { role: 'user', text, timestamp: new Date().toISOString() }
+    setMessages(prev => [...prev, userMsg])
+    await _sendRequest(text)
+  }, [_sendRequest])
+
+  // Retries the last failed message — keeps the user message visible in the thread
+  const retryLast = useCallback(() => {
+    if (lastMessageRef.current && !loading) {
+      _sendRequest(lastMessageRef.current)
+    }
+  }, [loading, _sendRequest])
+
   const clearChat = useCallback(() => {
     fetch(`/api/history/${sessionId.current}`, { method: 'DELETE' }).catch(() => {})
     sessionId.current = generateSessionId()
+    lastMessageRef.current = null
     setMessages([])
     setError(null)
     setBudgetExceeded(false)
   }, [])
 
-  return { messages, loading, error, budgetExceeded, sendMessage, clearChat }
+  return { messages, loading, error, budgetExceeded, sendMessage, clearChat, retryLast }
 }

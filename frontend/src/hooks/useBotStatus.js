@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 
 // returns: 'connecting' | 'online' | 'offline'
+// Pass intervalMs=null to disable polling (used when parent already has status)
 export function useBotStatus(intervalMs = 30_000) {
   const [status, setStatus] = useState('connecting')
 
   useEffect(() => {
+    if (intervalMs === null) return
+
     let cancelled = false
 
     const check = async () => {
