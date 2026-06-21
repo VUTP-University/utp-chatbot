@@ -13,9 +13,11 @@ const TEXT_COLOUR = {
   connecting: 'var(--color-warning)',
 }
 
-export default function StatusIndicator({ intervalMs }) {
+// status prop: if provided, skips internal polling (avoids duplicate /api/health calls)
+export default function StatusIndicator({ intervalMs, status: statusProp }) {
   const { t } = useTranslation()
-  const status = useBotStatus(intervalMs)
+  const hookStatus = useBotStatus(statusProp !== undefined ? null : intervalMs)
+  const status = statusProp ?? hookStatus
 
   return (
     <div style={{ fontSize: '0.75rem', color: TEXT_COLOUR[status], display: 'flex', alignItems: 'center', gap: 5 }}>

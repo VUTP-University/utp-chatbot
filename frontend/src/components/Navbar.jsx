@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChatIcon, MoonIcon, SunIcon, MenuIcon, XIcon } from './Icons'
+import { MoonIcon, SunIcon, MenuIcon, XIcon } from './Icons'
+
+const AIIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+    {/* Large 4-pointed star — universal "AI sparkle" mark */}
+    <path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6L12 2z" />
+    {/* Small accent star — top right */}
+    <path d="M19.5 1l.6 2.4 2.4.6-2.4.6-.6 2.4-.6-2.4-2.4-.6 2.4-.6L19.5 1z" opacity="0.65" />
+  </svg>
+)
 
 function LangSwitcher() {
   const { i18n } = useTranslation()
@@ -17,7 +26,17 @@ function LangSwitcher() {
       className="btn-icon transition-theme"
       onClick={toggle}
       aria-label="Switch language"
-      style={{ fontWeight: 700, fontSize: '0.8rem', minWidth: 36, letterSpacing: '0.04em', color: 'var(--color-text-heading)' }}
+      style={{
+        fontFamily: 'var(--font-mono)',
+        fontWeight: 600,
+        fontSize: '0.72rem',
+        letterSpacing: '0.08em',
+        minWidth: 38,
+        color: 'var(--color-text-heading)',
+        border: '1px solid var(--color-border)',
+        borderRadius: 'var(--radius-md)',
+        padding: '6px 10px',
+      }}
     >
       {current === 'en' ? 'BG' : 'EN'}
     </button>
@@ -31,15 +50,20 @@ export default function Navbar({ dark, onToggle }) {
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 12)
-    window.addEventListener('scroll', handler)
+    window.addEventListener('scroll', handler, { passive: true })
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
   useEffect(() => {
     if (!mobileOpen) return
     const close = () => setMobileOpen(false)
+    const onKey = (e) => { if (e.key === 'Escape') close() }
     window.addEventListener('scroll', close, { passive: true })
-    return () => window.removeEventListener('scroll', close)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      window.removeEventListener('scroll', close)
+      document.removeEventListener('keydown', onKey)
+    }
   }, [mobileOpen])
 
   const navLinks = [
@@ -56,29 +80,36 @@ export default function Navbar({ dark, onToggle }) {
         position: 'sticky', top: 0, zIndex: 50,
         borderBottom: `1px solid ${hasBg ? 'var(--color-border)' : 'transparent'}`,
         background: hasBg ? 'var(--color-surface)' : 'transparent',
-        backdropFilter: scrolled && !mobileOpen ? 'blur(12px)' : 'none',
-        WebkitBackdropFilter: scrolled && !mobileOpen ? 'blur(12px)' : 'none',
+        backdropFilter: scrolled && !mobileOpen ? 'blur(16px) saturate(1.6)' : 'none',
+        WebkitBackdropFilter: scrolled && !mobileOpen ? 'blur(16px) saturate(1.6)' : 'none',
       }}
     >
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{
+        maxWidth: 1200, margin: '0 auto', padding: '0 24px',
+        height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      }}>
         {/* Logo */}
-        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-          <div style={{ width: 34, height: 34, borderRadius: 10, background: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-            <ChatIcon />
-          </div>
-          <span style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--color-text-heading)', letterSpacing: '-0.02em' }}>
-            {t('nav.brand')} <span style={{ color: 'var(--color-primary)' }}>ChatBot</span>
+        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
+          <span style={{ color: 'var(--color-accent)', display: 'flex', alignItems: 'center' }}>
+            <AIIcon />
+          </span>
+          <span style={{
+            fontFamily: 'var(--font-heading)',
+            fontWeight: 800,
+            fontSize: '1rem',
+            letterSpacing: '-0.02em',
+            color: 'var(--color-text-heading)',
+          }}>
+            <span style={{ color: 'var(--color-primary)' }}>{t('nav.brand')}</span>
+            {' '}
+            <span style={{ fontWeight: 500, color: 'var(--color-text)' }}>{t('nav.brandSuffix')}</span>
           </span>
         </a>
 
-        {/* Nav links — desktop only */}
-        <nav style={{ display: 'flex', gap: 32, alignItems: 'center' }} className="hide-mobile">
+        {/* Nav links — desktop */}
+        <nav style={{ display: 'flex', gap: 36, alignItems: 'center' }} className="hide-mobile">
           {navLinks.map(({ label, href }) => (
-            <a key={href} href={href}
-              style={{ fontSize: '0.9rem', fontWeight: 500, color: 'var(--color-text)', transition: 'color 150ms ease' }}
-              onMouseEnter={e => e.target.style.color = 'var(--color-text-heading)'}
-              onMouseLeave={e => e.target.style.color = 'var(--color-text)'}
-            >
+            <a key={href} href={href} className="nav-link">
               {label}
             </a>
           ))}
@@ -87,10 +118,19 @@ export default function Navbar({ dark, onToggle }) {
         {/* Actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <LangSwitcher />
-          <button className="btn-icon transition-theme" onClick={onToggle} aria-label="Toggle theme">
+          <button
+            className="btn-icon transition-theme"
+            onClick={onToggle}
+            aria-label="Toggle theme"
+            style={{ border: '1px solid var(--color-border)', padding: '7px' }}
+          >
             {dark ? <SunIcon /> : <MoonIcon />}
           </button>
-          <a href="/chat" className="btn btn-primary hide-mobile" style={{ fontSize: '0.85rem', padding: '8px 18px' }}>
+          <a
+            href="/chat"
+            className="btn btn-primary hide-mobile"
+            style={{ fontSize: '0.85rem', padding: '8px 20px' }}
+          >
             {t('nav.openChat')}
           </a>
           <button
@@ -106,7 +146,14 @@ export default function Navbar({ dark, onToggle }) {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <nav style={{ background: 'var(--color-surface)', padding: '8px 24px 20px', display: 'flex', flexDirection: 'column' }}>
+        <nav style={{
+          background: 'var(--color-surface)',
+          borderTop: '1px solid var(--color-border)',
+          padding: '8px 24px 24px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 0,
+        }}>
           {navLinks.map(({ label, href }) => (
             <a
               key={href}
@@ -114,11 +161,9 @@ export default function Navbar({ dark, onToggle }) {
               onClick={() => setMobileOpen(false)}
               style={{
                 fontSize: '1rem', fontWeight: 500, color: 'var(--color-text)',
-                padding: '14px 0', borderBottom: '1px solid var(--color-border)',
-                textDecoration: 'none', display: 'block',
+                padding: '15px 0', borderBottom: '1px solid var(--color-border)',
+                textDecoration: 'none', display: 'block', transition: 'color 150ms ease',
               }}
-              onMouseEnter={e => e.target.style.color = 'var(--color-text-heading)'}
-              onMouseLeave={e => e.target.style.color = 'var(--color-text)'}
             >
               {label}
             </a>
@@ -127,9 +172,9 @@ export default function Navbar({ dark, onToggle }) {
             href="/chat"
             className="btn btn-primary"
             onClick={() => setMobileOpen(false)}
-            style={{ marginTop: 16, fontSize: '0.95rem', justifyContent: 'center' }}
+            style={{ marginTop: 20, fontSize: '0.95rem', justifyContent: 'center' }}
           >
-            <ChatIcon /> {t('nav.openChat')}
+            {t('nav.openChat')}
           </a>
         </nav>
       )}

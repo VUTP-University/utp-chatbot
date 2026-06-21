@@ -1,6 +1,7 @@
 {
   "nav": {
-    "brand": "VUTП",
+    "brand": "UTP",
+    "brandSuffix": "Assistant",
     "features": "Features",
     "howItWorks": "How it works",
     "openChat": "Open Chat"
@@ -70,23 +71,24 @@
     "connecting": "Connecting…"
   },
   "chat": {
-    "title": "VUTП Assistant",
+    "title": "UTP Assistant",
     "online": "Online",
     "newChat": "New chat",
     "backHome": "Back",
-    "placeholder": "Ask me anything about VUTП…",
+    "placeholder": "Ask me anything about UTP...",
     "send": "Send",
     "emptyTitle": "How can I help you?",
     "emptySubtitle": "Ask me anything about programs, admissions, fees, deadlines, or campus life.",
     "error": "Something went wrong. Please try again.",
+    "retry": "Retry",
     "errorOffline": "The assistant is currently offline. Please try again later.",
     "errorConnecting": "Connecting to the assistant, please wait…",
     "errorBudget": "The assistant is temporarily unavailable. Please try again later.",
     "disclaimer": "Answers are AI-generated and may not always be accurate. Verify important information with the university."
   },
   "footer": {
-    "copyright": "© {{year}} VUTП. All rights reserved.",
-    "tagline": "AI-powered assistant for students and applicants at VUTП.",
+    "copyright": "© {{year}} UTP. All rights reserved.",
+    "tagline": "AI-powered assistant for students and applicants at UTP.",
     "usefulLinks": "Useful Links",
     "project": "Project",
     "links": {
@@ -99,10 +101,10 @@
   },
   "about": {
     "badge": "About the project",
-    "title": "What is the VUTП ChatBot?",
+    "title": "What is the UTP ChatBot?",
     "subtitle": "An open-source chatbot for students, applicants, and anyone with questions about the University of Telecommunications and Post.",
     "whatTitle": "About the assistant",
-    "whatBody": "The VUTП ChatBot is a virtual assistant that draws on the university's own knowledge base. You can ask about programs, admissions, fees, schedules, and campus life — in Bulgarian or English, around the clock, no login needed.",
+    "whatBody": "The UTP ChatBot is a virtual assistant that draws on the university's own knowledge base. You can ask about programs, admissions, fees, schedules, and campus life — in Bulgarian or English, around the clock, no login needed.",
     "goalsTitle": "Project goals",
     "goals": [
       "Take some pressure off administrative staff by handling the questions they answer over and over",
