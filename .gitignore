@@ -210,3 +210,5 @@ __marimo__/
 # Custom ignore rules
 **/CONTRIBUTING
 **/.claude
+.DS_Store
+DOCS
