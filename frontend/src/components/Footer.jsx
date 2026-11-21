@@ -50,10 +50,7 @@ export default function Footer() {
 
   return (
     <footer style={{ background: 'var(--color-surface)', position: 'relative' }}>
-      <div aria-hidden style={{
-        height: 1,
-        background: 'linear-gradient(90deg, transparent 0%, var(--color-primary-border) 30%, var(--color-accent-border) 70%, transparent 100%)',
-      }} />
+      <div className="airmail airmail--thin" aria-hidden />
 
       <div style={{
         maxWidth: 1200, margin: '0 auto',

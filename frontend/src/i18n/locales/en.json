@@ -31,10 +31,22 @@
     "online": "Online",
     "placeholder": "Type a question…",
     "messages": [
-      { "role": "bot",  "text": "Hello! I'm the UTP assistant. How can I help?" },
-      { "role": "user", "text": "What is the semester fee for a full-time bachelor's degree in field 5.3?" },
-      { "role": "bot",  "text": "For the 2026/2027 academic year it is 195 EUR per semester for state-funded places and 940 EUR for paid places." },
-      { "role": "user", "text": "When is the winter semester payment deadline?" }
+      {
+        "role": "bot",
+        "text": "Hello! I'm the UTP assistant. How can I help?"
+      },
+      {
+        "role": "user",
+        "text": "Is there a cybersecurity program?"
+      },
+      {
+        "role": "bot",
+        "text": "Yes. Bachelor's programs: „Киберсигурност на комуникационните технологии“ and „Киберсигурност в бизнеса“; professional bachelor's: „Киберсигурност на високите технологии“."
+      },
+      {
+        "role": "user",
+        "text": "Can I study it online?"
+      }
     ]
   },
   "features": {
@@ -60,14 +72,85 @@
       }
     ]
   },
+  "fields": {
+    "badge": "Programs",
+    "title": "Three professional fields",
+    "subtitle": "UTP's programs belong to three professional fields – from professional bachelor's to master's degrees.",
+    "countLabel": "programs",
+    "cta": "All programs",
+    "items": [
+      {
+        "code": "5.3",
+        "name": "Communication and Computer Engineering",
+        "degrees": [
+          {
+            "label": "Professional bachelor",
+            "count": 4
+          },
+          {
+            "label": "Bachelor",
+            "count": 7
+          },
+          {
+            "label": "Master",
+            "count": 3
+          }
+        ]
+      },
+      {
+        "code": "5.13",
+        "name": "General Engineering",
+        "degrees": [
+          {
+            "label": "Bachelor",
+            "count": 4
+          },
+          {
+            "label": "Master",
+            "count": 2
+          }
+        ]
+      },
+      {
+        "code": "3.7",
+        "name": "Administration and Management",
+        "degrees": [
+          {
+            "label": "Professional bachelor",
+            "count": 1
+          },
+          {
+            "label": "Bachelor",
+            "count": 1
+          },
+          {
+            "label": "Master",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
   "howItWorks": {
     "badge": "How it works",
     "title": "Three steps",
     "subtitle": "No account needed.",
     "steps": [
-      { "number": "01", "title": "Open the chat",      "desc": "Click “Ask a question”." },
-      { "number": "02", "title": "Type your question", "desc": "For example: “How much is the part-time fee?” or “What are the department's office hours?”" },
-      { "number": "03", "title": "Read the answer",    "desc": "Follow the link to the UTP website for more details." }
+      {
+        "number": "01",
+        "title": "Open the chat",
+        "desc": "Click “Ask a question”."
+      },
+      {
+        "number": "02",
+        "title": "Type your question",
+        "desc": "For example: “How much is the part-time fee?” or “What are the department's office hours?”"
+      },
+      {
+        "number": "03",
+        "title": "Read the answer",
+        "desc": "Follow the link to the UTP website for more details."
+      }
     ]
   },
   "cta": {
@@ -76,9 +159,10 @@
     "subtitle": "About admissions, fees, your studies or how to reach the administration.",
     "button": "Ask a question"
   },
+  "postmark": "UTP · SOFIA · UTP · SOFIA ·",
   "status": {
-    "online":     "Online",
-    "offline":    "Offline",
+    "online": "Online",
+    "offline": "Offline",
     "connecting": "Connecting…"
   },
   "chat": {
@@ -112,11 +196,11 @@
     "project": "Project",
     "links": {
       "admissions": "Admissions",
-      "programs":   "Curricula",
-      "calendar":   "Academic calendar",
-      "fees":       "Fees",
-      "about":      "About the project",
-      "github":     "GitHub"
+      "programs": "Curricula",
+      "calendar": "Academic calendar",
+      "fees": "Fees",
+      "about": "About the project",
+      "github": "GitHub"
     }
   },
   "about": {
@@ -134,11 +218,26 @@
     ],
     "techTitle": "Technology",
     "tech": [
-      { "name": "React + Vite",          "desc": "User interface" },
-      { "name": "Tailwind CSS v4",       "desc": "Styling" },
-      { "name": "Flask",                 "desc": "Backend and API" },
-      { "name": "DigitalOcean AI Agent", "desc": "Language model and knowledge base" },
-      { "name": "i18next",               "desc": "Bulgarian and English" }
+      {
+        "name": "React + Vite",
+        "desc": "User interface"
+      },
+      {
+        "name": "Tailwind CSS v4",
+        "desc": "Styling"
+      },
+      {
+        "name": "Flask",
+        "desc": "Backend and API"
+      },
+      {
+        "name": "DigitalOcean AI Agent",
+        "desc": "Language model and knowledge base"
+      },
+      {
+        "name": "i18next",
+        "desc": "Bulgarian and English"
+      }
     ],
     "openSourceTitle": "Open source",
     "openSourceBody": "The code is public on GitHub. You can report a bug, suggest an idea or contribute there.",

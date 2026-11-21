@@ -2,12 +2,15 @@ import { useRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChatIcon, SparkleIcon, ArrowIcon, BookIcon, ClockIcon, ShieldIcon } from '../components/Icons'
 import ChatPreview from '../components/ChatPreview'
+import NetworkMap from '../components/NetworkMap'
+import Radar from '../components/Radar'
+import Morse from '../components/Morse'
+import Postmark from '../components/Postmark'
 
 const FEATURE_ICONS = [<BookIcon />, <ClockIcon />, <SparkleIcon />, <ShieldIcon />]
-const FEATURE_NUMS  = ['01', '02', '03', '04']
 
 /* ── Scroll-reveal wrapper ── */
-function Reveal({ children, delay = 0, style = {} }) {
+function Reveal({ children, delay = 0, className = '', style = {} }) {
   const ref = useRef(null)
   const [visible, setVisible] = useState(false)
 
@@ -25,16 +28,19 @@ function Reveal({ children, delay = 0, style = {} }) {
   return (
     <div
       ref={ref}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'none' : 'translateY(22px)',
-        transition: `opacity 0.65s ease ${delay}ms, transform 0.65s cubic-bezier(0.22,0.61,0.36,1) ${delay}ms`,
-        ...style,
-      }}
+      className={`reveal ${visible ? 'is-visible' : ''} ${className}`}
+      style={{ transitionDelay: `${delay}ms`, ...style }}
     >
       {children}
     </div>
   )
+}
+
+// Moves the radial "spotlight" on a card to follow the pointer
+function trackPointer(e) {
+  const r = e.currentTarget.getBoundingClientRect()
+  e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`)
+  e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`)
 }
 
 export default function Home() {
@@ -49,6 +55,7 @@ export default function Home() {
     <>
       <HeroSection />
       <FeaturesSection />
+      <FieldsSection />
       <HowItWorksSection />
       <CTASection />
     </>
@@ -57,77 +64,51 @@ export default function Home() {
 
 function HeroSection() {
   const { t } = useTranslation()
+  const readout = t('hero.disclaimer').split('·').map((s) => s.trim()).filter(Boolean)
 
   return (
-    <section
-      className="hero-section-pad dot-grid"
-      style={{ position: 'relative', overflow: 'hidden' }}
-    >
-      {/* Animated ambient orbs */}
-      <div aria-hidden style={{
-        position: 'absolute', top: -160, left: '40%',
-        width: 720, height: 720, borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(37,99,235,0.13) 0%, transparent 65%)',
-        pointerEvents: 'none', transform: 'translateX(-50%)',
-        animation: 'blob1 9s ease-in-out infinite',
-      }} />
-      <div aria-hidden style={{
-        position: 'absolute', bottom: -100, right: '-8%',
-        width: 460, height: 460, borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(6,182,212,0.11) 0%, transparent 65%)',
-        pointerEvents: 'none',
-        animation: 'blob2 7s ease-in-out 1.5s infinite',
-      }} />
-      <div aria-hidden style={{
-        position: 'absolute', top: '30%', left: '-6%',
-        width: 280, height: 280, borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 65%)',
-        pointerEvents: 'none',
-        animation: 'blob2 11s ease-in-out 3s infinite',
-      }} />
+    <section className="hero">
+      <div className="hero-glow" aria-hidden />
+      <NetworkMap className="hero-net" />
 
-      <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 72, position: 'relative' }}>
-        {/* Text */}
-        <div style={{ flex: '1 1 0', minWidth: 0 }}>
-          <div className="section-label anim-fade-up d-0">{t('hero.badge')}</div>
+      <div className="hero-inner">
+        <div className="hero-copy">
+          <div className="hero-kicker anim-fade-up d-0">
+            <span className="live-dot" aria-hidden />
+            <span>{t('hero.badge')}</span>
+            <Morse word={t('nav.brand')} />
+          </div>
 
-          <h1 className="anim-fade-up d-100 text-balance"
-            style={{ fontSize: 'clamp(2.6rem, 5vw, 3.8rem)', marginBottom: 24, lineHeight: 1.05 }}
-          >
+          <h1 className="hero-title anim-fade-up d-100 text-balance">
             {t('hero.headline')}{' '}
-            <span className="text-gradient">{t('hero.headlineHighlight')}</span>
+            <span className="hero-title-mark">{t('hero.headlineHighlight')}</span>
+            <span className="caret" aria-hidden />
           </h1>
 
-          <p className="anim-fade-up d-200 text-pretty"
-            style={{ fontSize: '1.05rem', lineHeight: 1.75, color: 'var(--color-text)', maxWidth: 480, marginBottom: 40 }}
-          >
+          <p className="hero-sub anim-fade-up d-200 text-pretty">
             {t('hero.subtext')}
           </p>
 
-          <div className="anim-fade-up d-300" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href="/chat" className="btn btn-primary" style={{ fontSize: '1rem', padding: '14px 28px', gap: 10 }}>
+          <div className="hero-actions anim-fade-up d-300">
+            <a href="/chat" className="btn btn-primary btn-lg btn-shine">
               <ChatIcon /> {t('hero.ctaChat')}
             </a>
-            <a href="#how-it-works" className="btn btn-ghost" style={{ fontSize: '1rem', padding: '14px 28px', gap: 10 }}>
+            <a href="#how-it-works" className="btn btn-ghost btn-lg">
               {t('hero.ctaLearn')} <ArrowIcon />
             </a>
           </div>
 
-          <p className="anim-fade-up d-400"
-            style={{ marginTop: 24, fontSize: '0.78rem', color: 'var(--color-text-muted)', letterSpacing: '0.02em' }}
-          >
-            {t('hero.disclaimer')}
-          </p>
+          <ul className="readout anim-fade-up d-400" aria-label={t('hero.disclaimer')}>
+            {readout.map((item, i) => (
+              <li key={item}>
+                <span className="readout-ch" aria-hidden>CH{i + 1}</span>
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* Chat preview — desktop, floats + glow */}
-        <div
-          className="anim-float-in hide-mobile"
-          style={{
-            flex: '0 0 420px', maxWidth: '100%',
-            filter: 'drop-shadow(0 20px 40px rgba(37,99,235,0.14))',
-          }}
-        >
+        <div className="hero-preview anim-float-in hide-mobile">
           <ChatPreview />
         </div>
       </div>
@@ -140,46 +121,89 @@ function FeaturesSection() {
   const items = t('features.items', { returnObjects: true })
 
   return (
-    <section id="features" style={{ padding: '88px 24px', background: 'var(--color-surface)' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+    <section id="features" className="section section-surface">
+      <div className="container">
         <Reveal>
-          <div style={{ marginBottom: 56 }}>
+          <header className="section-head">
             <div className="section-label">{t('features.badge')}</div>
-            <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', marginBottom: 16, maxWidth: 560 }} className="text-balance">
-              {t('features.title')}
-            </h2>
-            <p style={{ color: 'var(--color-text)', maxWidth: 440, lineHeight: 1.75 }}>
-              {t('features.subtitle')}
-            </p>
-          </div>
+            <h2 className="section-title text-balance">{t('features.title')}</h2>
+            <p className="section-lead">{t('features.subtitle')}</p>
+          </header>
         </Reveal>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+        <div className="stamp-grid">
           {items.map((f, i) => (
-            <Reveal key={i} delay={i * 80}>
-              <div className="feature-card" style={{ height: '100%' }}>
-                <span className="feature-num" aria-hidden>{FEATURE_NUMS[i]}</span>
-                <div style={{
-                  width: 44, height: 44, borderRadius: 12,
-                  background: 'var(--color-primary-muted)',
-                  border: '1px solid var(--color-primary-border)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: 'var(--color-primary)',
-                }}>
-                  {FEATURE_ICONS[i]}
+            <Reveal key={f.title} delay={i * 90} className={`stamp-wrap stamp-tilt-${i % 4}`}>
+              <article className="stamp" onPointerMove={trackPointer}>
+                <div className="stamp-inner">
+                  <div className="stamp-top">
+                    <div className="stamp-icon">{FEATURE_ICONS[i]}</div>
+                    <Postmark number={String(i + 1).padStart(2, '0')} text={t('postmark')} />
+                  </div>
+                  <h3 className="stamp-title">{f.title}</h3>
+                  <p className="stamp-desc">{f.desc}</p>
                 </div>
-                <div>
-                  <h3 style={{ fontSize: '1.05rem', marginBottom: 8, color: 'var(--color-text-heading)', letterSpacing: '-0.02em' }}>
-                    {f.title}
-                  </h3>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--color-text)', lineHeight: 1.7 }}>
-                    {f.desc}
-                  </p>
-                </div>
-              </div>
+              </article>
             </Reveal>
           ))}
         </div>
+      </div>
+    </section>
+  )
+}
+
+function FieldsSection() {
+  const { t } = useTranslation()
+  const items = t('fields.items', { returnObjects: true })
+
+  return (
+    <section id="programs" className="section">
+      <div className="container">
+        <Reveal>
+          <header className="section-head">
+            <div className="section-label">{t('fields.badge')}</div>
+            <h2 className="section-title text-balance">{t('fields.title')}</h2>
+            <p className="section-lead">{t('fields.subtitle')}</p>
+          </header>
+        </Reveal>
+
+        <div className="term-grid">
+          {items.map((field, i) => {
+            const total = field.degrees.reduce((sum, d) => sum + d.count, 0)
+            return (
+              <Reveal key={field.code} delay={i * 110}>
+                <article className="term">
+                  <div className="term-bar" aria-hidden>
+                    <span /><span /><span />
+                    <code>~/utp/pn-{field.code}</code>
+                  </div>
+                  <div className="term-body">
+                    <div className="term-code">{field.code}</div>
+                    <h3 className="term-name">{field.name}</h3>
+                    <p className="term-total">
+                      <span className="term-count">{total}</span> {t('fields.countLabel')}
+                    </p>
+                    <ul className="term-rows">
+                      {field.degrees.map((d) => (
+                        <li key={d.label}>
+                          <span>{d.label}</span>
+                          <span className="term-leader" aria-hidden />
+                          <span className="term-num">{String(d.count).padStart(2, '0')}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              </Reveal>
+            )
+          })}
+        </div>
+
+        <Reveal>
+          <a className="term-link" href="https://www.utp.bg/training/curricula/" target="_blank" rel="noopener noreferrer">
+            {t('fields.cta')} <ArrowIcon />
+          </a>
+        </Reveal>
       </div>
     </section>
   )
@@ -190,47 +214,35 @@ function HowItWorksSection() {
   const steps = t('howItWorks.steps', { returnObjects: true })
 
   return (
-    <section id="how-it-works" style={{ padding: '88px 24px' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+    <section id="how-it-works" className="section section-surface">
+      <div className="container">
         <Reveal>
-          <div style={{ textAlign: 'center', marginBottom: 60 }}>
-            <div className="section-label" style={{ justifyContent: 'center' }}>{t('howItWorks.badge')}</div>
-            <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', marginBottom: 16 }} className="text-balance">
-              {t('howItWorks.title')}
-            </h2>
-            <p style={{ color: 'var(--color-text)', maxWidth: 380, margin: '0 auto', lineHeight: 1.75 }}>
-              {t('howItWorks.subtitle')}
-            </p>
-          </div>
+          <header className="section-head section-head--center">
+            <div className="section-label">{t('howItWorks.badge')}</div>
+            <h2 className="section-title text-balance">{t('howItWorks.title')}</h2>
+            <p className="section-lead">{t('howItWorks.subtitle')}</p>
+          </header>
         </Reveal>
 
-        <div style={{ position: 'relative' }}>
-          {/* Connector line — desktop */}
-          {/* <div className="hide-mobile" aria-hidden style={{
-            position: 'absolute', top: 24,
-            left: 'calc(16.67% + 24px)', right: 'calc(16.67% + 24px)',
-            height: 1,
-            background: 'linear-gradient(90deg, var(--color-primary-border), var(--color-accent-border), var(--color-primary-border))',
-            zIndex: 0,
-          }} /> */}
+        <div className="relay">
+          <svg className="relay-line hide-mobile" viewBox="0 0 1000 20" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <line x1="0" y1="10" x2="1000" y2="10" className="relay-track" />
+            <line x1="0" y1="10" x2="1000" y2="10" className="relay-pulse" />
+          </svg>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 40, position: 'relative', zIndex: 1 }}>
+          <ol className="relay-steps">
             {steps.map((step, i) => (
-              <Reveal key={i} delay={i * 120}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-                  <div className="step-num">{step.number}</div>
-                  <div>
-                    <h3 style={{ fontSize: '1.1rem', marginBottom: 10, color: 'var(--color-text-heading)', letterSpacing: '-0.02em' }}>
-                      {step.title}
-                    </h3>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--color-text)', lineHeight: 1.7 }}>
-                      {step.desc}
-                    </p>
+              <Reveal key={step.number} delay={i * 140}>
+                <li className="relay-step">
+                  <div className="relay-node">
+                    <span>{step.number}</span>
                   </div>
-                </div>
+                  <h3 className="relay-title">{step.title}</h3>
+                  <p className="relay-desc">{step.desc}</p>
+                </li>
               </Reveal>
             ))}
-          </div>
+          </ol>
         </div>
       </div>
     </section>
@@ -241,79 +253,19 @@ function CTASection() {
   const { t } = useTranslation()
 
   return (
-    <section style={{ padding: '88px 24px', background: 'var(--color-surface)' }}>
+    <section className="section">
       <Reveal>
-        <div style={{ maxWidth: 800, margin: '0 auto' }}>
-          <div
-            className="cta-box-pad"
-            style={{
-              borderRadius: 'var(--radius-2xl)',
-              background: '#060c1a',
-              border: '1px solid rgba(59,130,246,0.16)',
-              position: 'relative', overflow: 'hidden', textAlign: 'center',
-              boxShadow: '0 32px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04)',
-            }}
-          >
-            {/* Aurora orb — top-left, blue */}
-            <div aria-hidden style={{
-              position: 'absolute', width: 420, height: 420, borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(37,99,235,0.38) 0%, transparent 70%)',
-              top: '-35%', left: '-12%',
-              filter: 'blur(52px)',
-              animation: 'aurora1 9s ease-in-out infinite',
-              pointerEvents: 'none',
-            }} />
-
-            {/* Aurora orb — bottom-right, cyan */}
-            <div aria-hidden style={{
-              position: 'absolute', width: 340, height: 340, borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(6,182,212,0.28) 0%, transparent 70%)',
-              bottom: '-25%', right: '-8%',
-              filter: 'blur(48px)',
-              animation: 'aurora2 7s ease-in-out 2s infinite',
-              pointerEvents: 'none',
-            }} />
-
-            {/* Aurora orb — centre-right, mid blue accent */}
-            <div aria-hidden style={{
-              position: 'absolute', width: 220, height: 220, borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(99,179,237,0.18) 0%, transparent 70%)',
-              top: '40%', right: '18%',
-              filter: 'blur(36px)',
-              animation: 'aurora1 13s ease-in-out 4.5s infinite',
-              pointerEvents: 'none',
-            }} />
-
-            {/* Very subtle dot grid */}
-            <div aria-hidden style={{
-              position: 'absolute', inset: 0, borderRadius: 'inherit',
-              backgroundImage: 'radial-gradient(circle, rgba(59,130,246,0.08) 1px, transparent 1px)',
-              backgroundSize: '28px 28px', pointerEvents: 'none',
-            }} />
-
-            {/* Content */}
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <div className="badge" style={{
-                marginBottom: 24, display: 'inline-flex',
-                background: 'rgba(37,99,235,0.15)',
-                borderColor: 'rgba(37,99,235,0.35)',
-                color: '#93c5fd',
-              }}>
-                <SparkleIcon /> {t('cta.badge')}
-              </div>
-              <h2
-                style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', marginBottom: 18, color: '#e4eeff', letterSpacing: '-0.03em' }}
-                className="text-balance"
-              >
-                {t('cta.title')}
-              </h2>
-              <p style={{ color: '#7a9abe', lineHeight: 1.8, maxWidth: 420, margin: '0 auto 40px', fontSize: '1rem' }}>
-                {t('cta.subtitle')}
-              </p>
-              <a href="/chat" className="btn btn-primary" style={{ fontSize: '1rem', padding: '15px 36px', gap: 10, boxShadow: '0 4px 24px rgba(37,99,235,0.45)' }}>
-                <ChatIcon /> {t('cta.button')}
-              </a>
+        <div className="scope cta-box-pad">
+          <Radar />
+          <div className="scope-content">
+            <div className="scope-badge">
+              <span className="live-dot" aria-hidden /> {t('cta.badge')}
             </div>
+            <h2 className="scope-title text-balance">{t('cta.title')}</h2>
+            <p className="scope-sub">{t('cta.subtitle')}</p>
+            <a href="/chat" className="btn btn-primary btn-lg btn-shine">
+              <ChatIcon /> {t('cta.button')}
+            </a>
           </div>
         </div>
       </Reveal>
