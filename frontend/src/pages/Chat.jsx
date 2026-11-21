@@ -87,7 +87,7 @@ function Message({ msg }) {
   return (
     <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, justifyContent: isUser ? 'flex-end' : 'flex-start' }}>
       {!isUser && <BotAvatar />}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: isUser ? 'flex-end' : 'flex-start', minWidth: 0, maxWidth: '100%' }}>
+      <div className={`message-col ${isUser ? 'message-col--user' : 'message-col--bot'}`}>
         <div className={isUser ? 'bubble-user' : 'bubble-bot markdown-body'} style={{ fontSize: '0.95rem' }}>
           {isUser ? msg.text : (
             <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSanitize]}>
