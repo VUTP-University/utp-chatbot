@@ -367,6 +367,27 @@
     overflow-x: auto;
   }
 
+  /* Chat page: the column (bubble + actions) carries the width limit, so the
+     bubble can use its full width instead of a percentage of a shrink-wrapped parent */
+  .message-col {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .message-col--user {
+    align-items: flex-end;
+    max-width: 75%;
+    @media (max-width: 640px) { max-width: 88%; }
+  }
+  .message-col--bot {
+    align-items: flex-start;
+    max-width: calc(100% - 46px);
+  }
+  .message-col > .bubble-user,
+  .message-col > .bubble-bot {
+    max-width: 100%;
+  }
+
   /* ── Badge ── */
   .badge {
     display: inline-flex;
