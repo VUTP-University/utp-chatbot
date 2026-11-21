@@ -28,8 +28,8 @@ export default function Navbar({ dark, onToggle }) {
   }, [mobileOpen])
 
   const navLinks = [
-    { label: t('nav.features'),   href: '#features'     },
-    { label: t('nav.howItWorks'), href: '#how-it-works' },
+    { label: t('nav.features'),   href: '/#features'     },
+    { label: t('nav.howItWorks'), href: '/#how-it-works' },
   ]
 
   const hasBg = scrolled || mobileOpen

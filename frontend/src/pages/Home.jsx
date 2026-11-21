@@ -38,6 +38,13 @@ function Reveal({ children, delay = 0, style = {} }) {
 }
 
 export default function Home() {
+  // Arriving from another page via /#features or /#how-it-works: the sections only exist
+  // after React renders, so the browser's own anchor jump can miss them — scroll explicitly.
+  useEffect(() => {
+    const id = decodeURIComponent(window.location.hash.slice(1))
+    if (id) document.getElementById(id)?.scrollIntoView()
+  }, [])
+
   return (
     <>
       <HeroSection />

@@ -113,6 +113,8 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
+    /* Keep anchored sections (#features, #how-it-works) clear of the sticky 64px navbar */
+    scroll-padding-top: 72px;
 
     @media (max-width: 768px) { font-size: 15px; }
   }
