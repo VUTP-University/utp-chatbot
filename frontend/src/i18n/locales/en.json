@@ -1,69 +1,80 @@
 {
+  "meta": {
+    "home": "UTP Assistant",
+    "chat": "Chat – UTP Assistant",
+    "about": "About – UTP Assistant"
+  },
+  "a11y": {
+    "switchLanguage": "Change language",
+    "toggleTheme": "Light or dark theme",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
   "nav": {
     "brand": "UTP",
     "brandSuffix": "Assistant",
     "features": "Features",
     "howItWorks": "How it works",
-    "openChat": "Open Chat"
+    "openChat": "Open chat"
   },
   "hero": {
-    "badge": "AI-Powered University Assistant",
-    "headline": "Your smartest guide to",
-    "headlineHighlight": "UTP University",
-    "subtext": "Ask about admissions, programs, deadlines, or how things generally work at UTP — you'll get an answer right away, any time of day.",
-    "ctaChat": "Start Chatting",
-    "ctaLearn": "Learn more",
-    "disclaimer": "No account needed · Free to use · Always available"
+    "badge": "UTP chatbot",
+    "headline": "Ask about",
+    "headlineHighlight": "UTP",
+    "subtext": "Programs, admissions, fees, deadlines and contacts. The assistant answers using the university's official information.",
+    "ctaChat": "Ask a question",
+    "ctaLearn": "How it works",
+    "disclaimer": "No account · Free · 24/7"
   },
   "preview": {
     "title": "UTP Assistant",
     "online": "Online",
-    "placeholder": "Ask me anything…",
+    "placeholder": "Type a question…",
     "messages": [
-      { "role": "bot",  "text": "Hello! I'm the UTP assistant. How can I help you today?" },
-      { "role": "user", "text": "What are the admission requirements for Computer Science?" },
-      { "role": "bot",  "text": "For Computer Science at UTP you'll need a high school diploma with a minimum GPA of 3.0, math and science scores, and to complete the entrance exam. Would you like details on the application process?" },
-      { "role": "user", "text": "Yes, when is the next deadline?" }
+      { "role": "bot",  "text": "Hello! I'm the UTP assistant. How can I help?" },
+      { "role": "user", "text": "What is the semester fee for a full-time bachelor's degree in field 5.3?" },
+      { "role": "bot",  "text": "For the 2026/2027 academic year it is 195 EUR per semester for state-funded places and 940 EUR for paid places." },
+      { "role": "user", "text": "When is the winter semester payment deadline?" }
     ]
   },
   "features": {
     "badge": "Features",
-    "title": "Everything you need, instantly",
-    "subtitle": "One place to ask anything about the university — and actually get a useful answer.",
+    "title": "What the assistant can help with",
+    "subtitle": "The questions students and applicants ask most often, in one place.",
     "items": [
       {
-        "title": "University Knowledge",
-        "desc": "Ask about programs, courses, deadlines, or faculty — everything comes from UTP's official information."
+        "title": "Programs and admissions",
+        "desc": "Which programs are offered, the forms of study and how long each program takes."
       },
       {
-        "title": "Available 24/7",
-        "desc": "No office hours, no queues. Ask your question whenever it comes up and get an answer straight away."
+        "title": "Fees and deadlines",
+        "desc": "Semester and administrative fees, bank details and payment deadlines."
       },
       {
-        "title": "AI-Powered",
-        "desc": "Just type your question the way you'd say it — no need to phrase things in any special way."
+        "title": "Ask naturally",
+        "desc": "Write the way you would ask a university staff member – in Bulgarian or English."
       },
       {
-        "title": "Reliable & Accurate",
-        "desc": "The information comes from UTP's official sources, so you can trust what you read."
+        "title": "Official sources",
+        "desc": "Answers are based on information published by UTP."
       }
     ]
   },
   "howItWorks": {
     "badge": "How it works",
-    "title": "Three steps to your answer",
-    "subtitle": "No setup. No account. Just ask.",
+    "title": "Three steps",
+    "subtitle": "No account needed.",
     "steps": [
-      { "number": "01", "title": "Open the Chat",        "desc": "Click 'Start Chatting' to open the assistant — no account needed." },
-      { "number": "02", "title": "Ask Your Question",    "desc": "Type anything: admissions, schedules, programs, fees, or campus services." },
-      { "number": "03", "title": "Get an Instant Answer","desc": "Get a clear answer in seconds, pulled from UTP's official information." }
+      { "number": "01", "title": "Open the chat",      "desc": "Click “Ask a question”." },
+      { "number": "02", "title": "Type your question", "desc": "For example: “How much is the part-time fee?” or “What are the department's office hours?”" },
+      { "number": "03", "title": "Read the answer",    "desc": "Follow the link to the UTP website for more details." }
     ]
   },
   "cta": {
-    "badge": "Ready to start?",
-    "title": "Have a question about UTP?",
-    "subtitle": "It's ready when you are. Ask about programs, fees, deadlines — or whatever's on your mind.",
-    "button": "Start Chatting"
+    "badge": "Have a question?",
+    "title": "Ask the assistant",
+    "subtitle": "About admissions, fees, your studies or how to reach the administration.",
+    "button": "Ask a question"
   },
   "status": {
     "online":     "Online",
@@ -74,47 +85,68 @@
     "title": "UTP Assistant",
     "online": "Online",
     "newChat": "New chat",
-    "backHome": "Back",
-    "placeholder": "Ask me anything about UTP...",
+    "backHome": "Home",
+    "placeholder": "Type a question about UTP…",
     "send": "Send",
-    "emptyTitle": "How can I help you?",
-    "emptySubtitle": "Ask me anything about programs, admissions, fees, deadlines, or campus life.",
-    "error": "Something went wrong. Please try again.",
-    "retry": "Retry",
-    "errorOffline": "The assistant is currently offline. Please try again later.",
-    "errorConnecting": "Connecting to the assistant, please wait…",
+    "copy": "Copy",
+    "copied": "Copied",
+    "emptyTitle": "How can I help?",
+    "emptySubtitle": "Ask about programs, admissions, fees, deadlines or contacts.",
+    "suggestions": [
+      "What programs does UTP offer?",
+      "How much is the semester fee?",
+      "When is the winter semester fee due?",
+      "How do I contact the Student Affairs office?"
+    ],
+    "error": "The answer could not be loaded.",
+    "retry": "Try again",
+    "errorOffline": "The assistant is not available right now. Please try again later.",
+    "errorConnecting": "Connecting to the assistant…",
     "errorBudget": "The assistant is temporarily unavailable. Please try again later.",
-    "disclaimer": "Answers are AI-generated and may not always be accurate. Verify important information with the university."
+    "disclaimer": "The assistant uses AI and can make mistakes. Check important information on utp.bg or with the Student Affairs office."
   },
   "footer": {
-    "copyright": "© {{year}} UTP. All rights reserved.",
-    "tagline": "AI-powered assistant for students and applicants at UTP.",
-    "usefulLinks": "Useful Links",
+    "copyright": "© {{year}} UTP · Open source (GPL-3.0)",
+    "tagline": "A chatbot that answers questions about programs, admissions, fees and deadlines at UTP.",
+    "usefulLinks": "Useful links",
     "project": "Project",
     "links": {
       "admissions": "Admissions",
-      "programs":   "Programs",
-      "schedule":   "Schedule",
+      "programs":   "Curricula",
+      "calendar":   "Academic calendar",
+      "fees":       "Fees",
       "about":      "About the project",
       "github":     "GitHub"
     }
   },
   "about": {
     "badge": "About the project",
-    "title": "What is the UTP ChatBot?",
-    "subtitle": "An open-source chatbot for students, applicants, and anyone with questions about the University of Telecommunications and Post.",
-    "whatTitle": "About the assistant",
-    "whatBody": "The UTP ChatBot is a virtual assistant that draws on the university's own knowledge base. You can ask about programs, admissions, fees, schedules, and campus life — in Bulgarian or English, around the clock, no login needed.",
-    "goalsTitle": "Project goals",
+    "title": "What is UTP Assistant?",
+    "subtitle": "An open-source chatbot for students, applicants and anyone with questions about the University of Telecommunications and Post.",
+    "whatTitle": "How it works",
+    "whatBody": "The assistant answers from a knowledge base of official UTP information – programs, fees, deadlines, contacts and guidelines for coursework and theses. You can ask in Bulgarian or English, at any time and without an account. Answers are generated by a language model, so check the university website before making important decisions.",
+    "goalsTitle": "Goals",
     "goals": [
-      "Take some pressure off administrative staff by handling the questions they answer over and over",
-      "Give students and applicants fast answers without making them wait",
-      "Let anyone check university information any time, from any device",
-      "Show how AI tools can be used practically in a university setting"
+      "Fewer repeated questions for the administration",
+      "Quick answers for students and applicants, without waiting",
+      "University information available at any time, from any device",
+      "A practical example of using AI in a university setting"
     ],
-    "techTitle": "Technology stack",
+    "techTitle": "Technology",
+    "tech": [
+      { "name": "React + Vite",          "desc": "User interface" },
+      { "name": "Tailwind CSS v4",       "desc": "Styling" },
+      { "name": "Flask",                 "desc": "Backend and API" },
+      { "name": "DigitalOcean AI Agent", "desc": "Language model and knowledge base" },
+      { "name": "i18next",               "desc": "Bulgarian and English" }
+    ],
     "openSourceTitle": "Open source",
-    "openSourceBody": "Everything is open source — if you find a bug, have an idea, or want to contribute, GitHub is the place.",
-    "openSourceCta": "View on GitHub"
+    "openSourceBody": "The code is public on GitHub. You can report a bug, suggest an idea or contribute there.",
+    "openSourceCta": "Go to GitHub"
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "body": "The page could not be loaded. Reload to continue.",
+    "button": "Reload"
   }
 }

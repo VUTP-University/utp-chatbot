@@ -1,13 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { ChatIcon, SparkleIcon, ShieldIcon, BookIcon, GithubIcon } from '../components/Icons'
+import { ChatIcon, ShieldIcon, BookIcon, GithubIcon } from '../components/Icons'
 
-const TECH_STACK = [
-  { name: 'React + Vite', desc: 'Frontend framework & build tool' },
-  { name: 'Tailwind CSS v4', desc: 'Utility-first styling' },
-  { name: 'Flask', desc: 'Python backend API' },
-  { name: 'DigitalOcean AI Agent', desc: 'LLM inference & knowledge base' },
-  { name: 'i18next', desc: 'Internationalisation (EN / BG)' },
-]
 
 export default function About() {
   const { t } = useTranslation()
@@ -78,7 +71,7 @@ export default function About() {
         <section>
           <SectionHeader icon={<ShieldIcon />} title={t('about.techTitle')} />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 14 }}>
-            {TECH_STACK.map(({ name, desc }) => (
+            {t('about.tech', { returnObjects: true }).map(({ name, desc }) => (
               <div
                 key={name}
                 style={{
