@@ -7,8 +7,12 @@ import { useChat } from '../hooks/useChat'
 import { useBotStatus } from '../hooks/useBotStatus'
 import { SparkleIcon, MoonIcon, SunIcon } from '../components/Icons'
 import StatusIndicator from '../components/StatusIndicator'
+import BrandMark from '../components/BrandMark'
+import LangSwitcher from '../components/LangSwitcher'
 
 const MAX_INPUT_LENGTH = 2000
+// Auto-scroll only while the reader is within this many px of the bottom
+const STICK_TO_BOTTOM_PX = 120
 
 const SendIcon = () => (
   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -25,53 +29,6 @@ const TrashIcon = () => (
     <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
   </svg>
 )
-
-const AIIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-    <path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6L12 2z" />
-    <path d="M19.5 1l.6 2.4 2.4.6-2.4.6-.6 2.4-.6-2.4-2.4-.6 2.4-.6L19.5 1z" opacity="0.65" />
-  </svg>
-)
-
-function LangSwitcher() {
-  const { i18n } = useTranslation()
-  const current = i18n.language
-  const toggle = () => {
-    const next = current === 'en' ? 'bg' : 'en'
-    i18n.changeLanguage(next)
-    localStorage.setItem('lang', next)
-  }
-  return (
-    <button
-      className="btn-icon transition-theme"
-      onClick={toggle}
-      aria-label="Switch language"
-      style={{
-        fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: '0.7rem',
-        letterSpacing: '0.08em', minWidth: 36,
-        color: 'var(--color-text-heading)',
-        border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)',
-        padding: '6px 8px',
-      }}
-    >
-      {current === 'en' ? 'BG' : 'EN'}
-    </button>
-  )
-}
-
-const SUGGESTED_QUESTIONS_EN = [
-  'What programs does UTP offer?',
-  'How do I apply for admission?',
-  'What are the tuition fees?',
-  'Where is the campus located?',
-]
-
-const SUGGESTED_QUESTIONS_BG = [
-  'Какви специалности предлага ВУТП?',
-  'Как да кандидатствам за прием?',
-  'Какви са таксите за обучение?',
-  'Къде се намира кампусът?',
-]
 
 function TypingIndicator() {
   return (
@@ -94,8 +51,34 @@ function TypingIndicator() {
 function BotAvatar() {
   return (
     <div className="bot-avatar">
-      <AIIcon />
+      <BrandMark />
     </div>
+  )
+}
+
+function CopyButton({ text }) {
+  const { t } = useTranslation()
+  const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    if (!copied) return
+    const id = setTimeout(() => setCopied(false), 2000)
+    return () => clearTimeout(id)
+  }, [copied])
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopied(true)
+    } catch {
+      // clipboard blocked (insecure context or permissions) — nothing to do
+    }
+  }
+
+  return (
+    <button type="button" className="copy-btn" onClick={copy} aria-live="polite">
+      {copied ? t('chat.copied') : t('chat.copy')}
+    </button>
   )
 }
 
@@ -104,30 +87,46 @@ function Message({ msg }) {
   return (
     <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, justifyContent: isUser ? 'flex-end' : 'flex-start' }}>
       {!isUser && <BotAvatar />}
-      <div className={isUser ? 'bubble-user' : 'bubble-bot markdown-body'} style={{ fontSize: '0.95rem' }}>
-        {isUser ? msg.text : (
-          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSanitize]}>
-            {msg.text}
-          </ReactMarkdown>
-        )}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: isUser ? 'flex-end' : 'flex-start', minWidth: 0, maxWidth: '100%' }}>
+        <div className={isUser ? 'bubble-user' : 'bubble-bot markdown-body'} style={{ fontSize: '0.95rem' }}>
+          {isUser ? msg.text : (
+            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSanitize]}>
+              {msg.text}
+            </ReactMarkdown>
+          )}
+        </div>
+        {!isUser && <CopyButton text={msg.text} />}
       </div>
     </div>
   )
 }
 
 export default function Chat({ dark, onToggle }) {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { messages, loading, error, budgetExceeded, sendMessage, clearChat, retryLast } = useChat()
   const botStatus = useBotStatus()
   const [input, setInput] = useState('')
   const bottomRef = useRef(null)
+  const areaRef = useRef(null)
+  const nearBottomRef = useRef(true)
   const inputRef = useRef(null)
   const prevLoadingRef = useRef(false)
 
-  const suggestedQuestions = i18n.language === 'bg' ? SUGGESTED_QUESTIONS_BG : SUGGESTED_QUESTIONS_EN
+  const suggestedQuestions = t('chat.suggestions', { returnObjects: true })
 
+  const handleScroll = () => {
+    const el = areaRef.current
+    if (!el) return
+    nearBottomRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < STICK_TO_BOTTOM_PX
+  }
+
+  // Follow new messages, unless the reader has scrolled up — except right after they send something
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    const last = messages[messages.length - 1]
+    if (nearBottomRef.current || last?.role === 'user') {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+      nearBottomRef.current = true
+    }
   }, [messages, loading])
 
   useEffect(() => {
@@ -179,7 +178,7 @@ export default function Chat({ dark, onToggle }) {
               display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff',
               boxShadow: '0 2px 10px rgba(37,99,235,0.28)', flexShrink: 0,
             }}>
-              <AIIcon />
+              <BrandMark />
             </div>
             <span style={{
               fontFamily: 'var(--font-heading)', fontWeight: 800,
@@ -212,7 +211,7 @@ export default function Chat({ dark, onToggle }) {
           <button
             className="btn-icon transition-theme"
             onClick={onToggle}
-            aria-label="Toggle theme"
+            aria-label={t('a11y.toggleTheme')}
             style={{ border: '1px solid var(--color-border)', padding: '7px' }}
           >
             {dark ? <SunIcon /> : <MoonIcon />}
@@ -224,7 +223,7 @@ export default function Chat({ dark, onToggle }) {
       </div>
 
       {/* ── Message area ── */}
-      <div className="chat-messages-area scrollbar-thin">
+      <div className="chat-messages-area scrollbar-thin" ref={areaRef} onScroll={handleScroll}>
         <div style={{ width: '100%', flex: 1, display: 'flex', flexDirection: 'column' }}>
 
           {isEmpty && (

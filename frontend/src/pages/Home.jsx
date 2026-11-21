@@ -37,92 +37,10 @@ function Reveal({ children, delay = 0, style = {} }) {
   )
 }
 
-/* ── Floating particle field for CTA background ── */
-const CTA_PARTICLES = Array.from({ length: 28 }, (_, i) => ({
-  x:        ((i * 41 + 7)  % 94) + 3,
-  y:        ((i * 67 + 13) % 86) + 7,
-  size:      1.4 + (i % 3) * 0.7,
-  delay:    ((i * 0.38) % 5).toFixed(2),
-  duration: (3.2 + (i % 6) * 0.5).toFixed(1),
-  cyan:      i % 3 === 0,
-  dx:       ((i % 5) - 2) * 3,
-  dy:       -8 - (i % 5) * 2,
-}))
-
-function CTAParticles() {
-  return (
-    <>
-      {CTA_PARTICLES.map((p, i) => (
-        <div
-          key={i}
-          aria-hidden
-          style={{
-            position: 'absolute',
-            left: `${p.x}%`, top: `${p.y}%`,
-            width: p.size, height: p.size,
-            borderRadius: '50%',
-            background: p.cyan ? 'rgba(34,211,238,0.9)' : 'rgba(96,165,250,0.7)',
-            boxShadow: p.cyan
-              ? `0 0 ${p.size * 4}px rgba(34,211,238,0.45)`
-              : `0 0 ${p.size * 4}px rgba(96,165,250,0.35)`,
-            animation: `particle-drift ${p.duration}s ease-in-out ${p.delay}s infinite alternate`,
-            '--dx': `${p.dx}px`,
-            '--dy': `${p.dy}px`,
-            pointerEvents: 'none',
-          }}
-        />
-      ))}
-    </>
-  )
-}
-
-/* ── Scrolling ticker strip ── */
-function TickerStrip() {
-  const { t } = useTranslation()
-  const items = t('features.items', { returnObjects: true }).map(f => f.title)
-  const extras = [t('hero.disclaimer').split('·')[0].trim()]
-  const all = [...items, ...extras]
-  const doubled = [...all, ...all] // seamless loop
-
-  return (
-    <div style={{
-      overflow: 'hidden',
-      borderTop: '1px solid var(--color-border)',
-      borderBottom: '1px solid var(--color-border)',
-      background: 'var(--color-surface)',
-      padding: '11px 0',
-      position: 'relative',
-    }}>
-      {/* Fade masks */}
-      <div aria-hidden style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 100, background: 'linear-gradient(90deg, var(--color-surface), transparent)', zIndex: 1, pointerEvents: 'none' }} />
-      <div aria-hidden style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 100, background: 'linear-gradient(-90deg, var(--color-surface), transparent)', zIndex: 1, pointerEvents: 'none' }} />
-
-      <div style={{ display: 'flex', animation: 'marquee 28s linear infinite', whiteSpace: 'nowrap', willChange: 'transform' }}>
-        {doubled.map((item, i) => (
-          <span key={i} style={{
-            padding: '0 28px',
-            fontSize: '0.72rem',
-            fontWeight: 600,
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--color-text-muted)',
-            display: 'inline-flex', alignItems: 'center', gap: 10,
-          }}>
-            <span style={{ color: 'var(--color-accent)', fontSize: '0.55rem' }}>✦</span>
-            {item}
-          </span>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 export default function Home() {
   return (
     <>
       <HeroSection />
-      <TickerStrip />
       <FeaturesSection />
       <HowItWorksSection />
       <CTASection />
@@ -164,7 +82,7 @@ function HeroSection() {
       <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 72, position: 'relative' }}>
         {/* Text */}
         <div style={{ flex: '1 1 0', minWidth: 0 }}>
-          <div className="section-label anim-fade-up d-0">AI University Assistant</div>
+          <div className="section-label anim-fade-up d-0">{t('hero.badge')}</div>
 
           <h1 className="anim-fade-up d-100 text-balance"
             style={{ fontSize: 'clamp(2.6rem, 5vw, 3.8rem)', marginBottom: 24, lineHeight: 1.05 }}
@@ -183,7 +101,7 @@ function HeroSection() {
             <a href="/chat" className="btn btn-primary" style={{ fontSize: '1rem', padding: '14px 28px', gap: 10 }}>
               <ChatIcon /> {t('hero.ctaChat')}
             </a>
-            <a href="#features" className="btn btn-ghost" style={{ fontSize: '1rem', padding: '14px 28px', gap: 10 }}>
+            <a href="#how-it-works" className="btn btn-ghost" style={{ fontSize: '1rem', padding: '14px 28px', gap: 10 }}>
               {t('hero.ctaLearn')} <ArrowIcon />
             </a>
           </div>
@@ -365,9 +283,6 @@ function CTASection() {
               backgroundImage: 'radial-gradient(circle, rgba(59,130,246,0.08) 1px, transparent 1px)',
               backgroundSize: '28px 28px', pointerEvents: 'none',
             }} />
-
-            {/* Floating particles */}
-            <CTAParticles />
 
             {/* Content */}
             <div style={{ position: 'relative', zIndex: 1 }}>

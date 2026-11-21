@@ -1,47 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MoonIcon, SunIcon, MenuIcon, XIcon } from './Icons'
-
-const AIIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-    {/* Large 4-pointed star — universal "AI sparkle" mark */}
-    <path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6L12 2z" />
-    {/* Small accent star — top right */}
-    <path d="M19.5 1l.6 2.4 2.4.6-2.4.6-.6 2.4-.6-2.4-2.4-.6 2.4-.6L19.5 1z" opacity="0.65" />
-  </svg>
-)
-
-function LangSwitcher() {
-  const { i18n } = useTranslation()
-  const current = i18n.language
-
-  const toggle = () => {
-    const next = current === 'en' ? 'bg' : 'en'
-    i18n.changeLanguage(next)
-    localStorage.setItem('lang', next)
-  }
-
-  return (
-    <button
-      className="btn-icon transition-theme"
-      onClick={toggle}
-      aria-label="Switch language"
-      style={{
-        fontFamily: 'var(--font-mono)',
-        fontWeight: 600,
-        fontSize: '0.72rem',
-        letterSpacing: '0.08em',
-        minWidth: 38,
-        color: 'var(--color-text-heading)',
-        border: '1px solid var(--color-border)',
-        borderRadius: 'var(--radius-md)',
-        padding: '6px 10px',
-      }}
-    >
-      {current === 'en' ? 'BG' : 'EN'}
-    </button>
-  )
-}
+import BrandMark from './BrandMark'
+import LangSwitcher from './LangSwitcher'
 
 export default function Navbar({ dark, onToggle }) {
   const { t } = useTranslation()
@@ -91,7 +52,7 @@ export default function Navbar({ dark, onToggle }) {
         {/* Logo */}
         <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
           <span style={{ color: 'var(--color-accent)', display: 'flex', alignItems: 'center' }}>
-            <AIIcon />
+            <BrandMark size={20} />
           </span>
           <span style={{
             fontFamily: 'var(--font-heading)',
@@ -121,7 +82,7 @@ export default function Navbar({ dark, onToggle }) {
           <button
             className="btn-icon transition-theme"
             onClick={onToggle}
-            aria-label="Toggle theme"
+            aria-label={t('a11y.toggleTheme')}
             style={{ border: '1px solid var(--color-border)', padding: '7px' }}
           >
             {dark ? <SunIcon /> : <MoonIcon />}
@@ -136,7 +97,7 @@ export default function Navbar({ dark, onToggle }) {
           <button
             className="btn-icon show-mobile"
             onClick={() => setMobileOpen(o => !o)}
-            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-label={t(mobileOpen ? 'a11y.closeMenu' : 'a11y.openMenu')}
             aria-expanded={mobileOpen}
           >
             {mobileOpen ? <XIcon /> : <MenuIcon />}
