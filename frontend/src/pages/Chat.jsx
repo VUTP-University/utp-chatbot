@@ -268,6 +268,7 @@ export default function Chat({ dark, onToggle }) {
                   <button key={i} className="btn btn-ghost"
                     style={{ fontSize: '0.85rem', padding: '9px 16px', textAlign: 'left' }}
                     onClick={() => sendMessage(q)}
+                    disabled={loading || botStatus !== 'online'}
                   >
                     {q}
                   </button>
