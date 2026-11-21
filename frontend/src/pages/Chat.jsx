@@ -9,6 +9,7 @@ import { SparkleIcon, MoonIcon, SunIcon } from '../components/Icons'
 import StatusIndicator from '../components/StatusIndicator'
 import BrandMark from '../components/BrandMark'
 import LangSwitcher from '../components/LangSwitcher'
+import TypingWave from '../components/TypingWave'
 
 const MAX_INPUT_LENGTH = 2000
 // Auto-scroll only while the reader is within this many px of the bottom
@@ -34,15 +35,8 @@ function TypingIndicator() {
   return (
     <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10 }}>
       <BotAvatar />
-      <div className="bubble-bot" style={{ display: 'flex', gap: 6, alignItems: 'center', padding: '14px 18px' }}>
-        {[0, 1, 2].map(i => (
-          <span key={i} style={{
-            width: 7, height: 7, borderRadius: '50%',
-            background: 'var(--color-accent)',
-            display: 'inline-block',
-            animation: `bounce 1.2s ${i * 0.18}s ease-in-out infinite`,
-          }} />
-        ))}
+      <div className="bubble-bot" style={{ padding: '14px 18px' }}>
+        <TypingWave />
       </div>
     </div>
   )
@@ -186,7 +180,7 @@ export default function Chat({ dark, onToggle }) {
             }}>
               <span style={{ color: 'var(--color-primary)' }}>{t('nav.brand')}</span>
               {' '}
-              <span style={{ fontWeight: 500, color: 'var(--color-text)' }}>{t('nav.brandSuffix')}</span>
+              <span className="mobile-hidden-text" style={{ fontWeight: 500, color: 'var(--color-text)' }}>{t('nav.brandSuffix')}</span>
             </span>
           </a>
 
