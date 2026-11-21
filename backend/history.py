@@ -21,17 +21,26 @@ def save_message(session_id: str, user_message: str, bot_answer: str) -> None:
     db.session.commit()
 
 
-def get_history(session_id: str) -> list:
-    messages = (
-        Message.query
-        .filter_by(session_id=session_id)
-        .order_by(Message.created_at.asc())
-        .all()
-    )
+def get_history(session_id: str, limit: int | None = None) -> list:
+    """Return messages in chronological order.
+
+    When ``limit`` is given, only the most recent ``limit`` messages are returned.
+    """
+    query = Message.query.filter_by(session_id=session_id)
+    if limit is not None:
+        recent = query.order_by(Message.created_at.desc(), Message.id.desc()).limit(limit).all()
+        messages = list(reversed(recent))
+    else:
+        messages = query.order_by(Message.created_at.asc(), Message.id.asc()).all()
     return [
         {"role": m.role, "content": m.content, "timestamp": m.created_at.isoformat()}
         for m in messages
     ]
+
+
+def is_session_closed(session_id: str) -> bool:
+    session = db.session.get(Session, session_id)
+    return bool(session and session.closed)
 
 
 def clear_history(session_id: str) -> None:

@@ -115,6 +115,8 @@ npm run build
 | `DO_AGENT_URL` | Base URL of your DigitalOcean AI Agent |
 | `DO_AGENT_KEY` | API key for the AI Agent |
 | `FLASK_ENV` | `development` or `production` |
+| `MAX_HISTORY_PER_SESSION` | Optional. Max prior messages sent to the agent as context (default `20`) |
+| `AGENT_CONNECT_TIMEOUT` / `AGENT_READ_TIMEOUT` | Optional. Agent request timeouts in seconds (defaults `5` / `60`) |
 
 ---
 
