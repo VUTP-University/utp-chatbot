@@ -21,6 +21,7 @@ class BudgetGuard:
         self._exceeded = False
         self._current_usage = 0.0
         self._lock = threading.Lock()
+        self._scheduler_started = False
 
     @property
     def exceeded(self) -> bool:
@@ -92,15 +93,26 @@ class BudgetGuard:
             logger.warning("Failed to persist budget check to DB: %s", exc)
 
     def start_scheduler(self, app, interval_minutes: int) -> None:
-        """Run an immediate check then keep polling every interval_minutes on a daemon thread."""
-        with app.app_context():
-            self.check(app)
+        """Poll the billing API every interval_minutes on a daemon thread.
+
+        The first check runs immediately on the background thread so app startup
+        is never blocked by the billing API. Calling this more than once in the
+        same process is a no-op.
+        """
+        with self._lock:
+            if self._scheduler_started:
+                logger.debug("Budget scheduler already running — skipping.")
+                return
+            self._scheduler_started = True
 
         def _loop():
             while True:
+                try:
+                    with app.app_context():
+                        self.check(app)
+                except Exception:
+                    logger.exception("Unexpected error in budget check — will retry next interval.")
                 time.sleep(interval_minutes * 60)
-                with app.app_context():
-                    self.check(app)
 
         thread = threading.Thread(target=_loop, daemon=True, name="budget-guard")
         thread.start()

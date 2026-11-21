@@ -74,3 +74,23 @@ def test_history_message_has_timestamp_field(app):
 
     assert "timestamp" in messages[0]
     assert messages[0]["timestamp"] is not None
+
+
+def test_get_history_with_limit_returns_most_recent_in_order(app):
+    with app.app_context():
+        save_message("sess-007", "A", "B")
+        save_message("sess-007", "C", "D")
+        save_message("sess-007", "E", "F")
+        messages = get_history("sess-007", limit=3)
+
+    assert [m["content"] for m in messages] == ["D", "E", "F"]
+
+
+def test_is_session_closed(app):
+    from history import is_session_closed
+    with app.app_context():
+        save_message("sess-008", "Hi", "Hello")
+        assert is_session_closed("sess-008") is False
+        clear_history("sess-008")
+        assert is_session_closed("sess-008") is True
+        assert is_session_closed("never-existed") is False

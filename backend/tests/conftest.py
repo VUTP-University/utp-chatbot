@@ -9,8 +9,8 @@ def app():
     application = create_app(test_config={
         "TESTING": True,
         "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
-        "DO_AGENT_ENDPOINT": "http://mock-agent",
-        "DO_AGENT_ACCESS_KEY": "test-key",
+        "DO_AGENT_URL": "http://mock-agent",
+        "DO_AGENT_KEY": "test-key",
         "BUDGET_LIMIT_USD": 0,  # disable budget scheduler during tests
     })
 
