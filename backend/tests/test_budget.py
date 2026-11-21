@@ -165,7 +165,7 @@ def test_chat_returns_503_when_budget_exceeded(budget_client):
 
     response = budget_client.post(
         "/api/chat",
-        json={"message": "Hello", "session_id": "budget-block-session"},
+        json={"message": "Hello", "session_id": "350cf47b-e862-41d3-82dc-193147edc0b7"},
     )
     assert response.status_code == 503
     data = response.get_json()
@@ -181,8 +181,33 @@ def test_chat_proceeds_normally_when_budget_not_exceeded(budget_client):
         mock_agent.return_value = {"answer": "Hello!"}
         response = budget_client.post(
             "/api/chat",
-            json={"message": "Hello", "session_id": "budget-ok-session"},
+            json={"message": "Hello", "session_id": "995dc6dc-d8ce-45eb-b775-59131fa5777d"},
         )
 
     assert response.status_code == 200
     assert response.get_json()["answer"] == "Hello!"
+
+
+# ── start_scheduler() ─────────────────────────────────────────────────────────
+
+def test_start_scheduler_is_idempotent_and_does_not_block(budget_app):
+    from budget import BudgetGuard
+    guard = BudgetGuard()
+    with patch("budget.threading.Thread") as thread_cls, patch("budget.http.get") as mock_get:
+        guard.start_scheduler(budget_app, 60)
+        guard.start_scheduler(budget_app, 60)
+
+    assert thread_cls.call_count == 1
+    mock_get.assert_not_called()  # first check runs on the background thread, not at startup
+
+
+def test_reloader_parent_does_not_start_scheduler(monkeypatch):
+    from app import _is_reloader_parent
+    app = MagicMock(debug=True)
+    monkeypatch.delenv("WERKZEUG_RUN_MAIN", raising=False)
+    assert _is_reloader_parent(app) is True
+    monkeypatch.setenv("WERKZEUG_RUN_MAIN", "true")
+    assert _is_reloader_parent(app) is False
+    app.debug = False
+    monkeypatch.delenv("WERKZEUG_RUN_MAIN")
+    assert _is_reloader_parent(app) is False

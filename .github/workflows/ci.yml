@@ -31,8 +31,8 @@ jobs:
       - name: Run pytest
         env:
           DATABASE_URL: "sqlite:///:memory:"
-          DO_AGENT_ENDPOINT: "http://mock-agent"
-          DO_AGENT_ACCESS_KEY: test-key
+          DO_AGENT_URL: "http://mock-agent"
+          DO_AGENT_KEY: test-key
           SECRET_KEY: ci-secret
           FLASK_ENV: development
         run: pytest tests/ -v --tb=short

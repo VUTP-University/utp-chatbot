@@ -7,13 +7,18 @@ load_dotenv()
 
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-change-in-production")
-    DO_AGENT_ENDPOINT = os.getenv("DO_AGENT_ENDPOINT", "")
-    DO_AGENT_ACCESS_KEY = os.getenv("DO_AGENT_ACCESS_KEY", "")
+    DO_AGENT_URL = os.getenv("DO_AGENT_URL", "").rstrip("/")
+    DO_AGENT_KEY = os.getenv("DO_AGENT_KEY", "")
+    # (connect, read) timeouts in seconds for the AI agent request
+    AGENT_CONNECT_TIMEOUT = float(os.getenv("AGENT_CONNECT_TIMEOUT") or 5)
+    AGENT_READ_TIMEOUT = float(os.getenv("AGENT_READ_TIMEOUT") or 60)
 
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    MAX_HISTORY_PER_SESSION = 50
+    # Max number of prior messages (user + bot) sent to the agent as context
+    MAX_HISTORY_PER_SESSION = int(os.getenv("MAX_HISTORY_PER_SESSION") or 20)
+    MAX_MESSAGE_LENGTH = 2000
 
     # Budget guard
     BUDGET_LIMIT_USD = float(os.getenv("BUDGET_LIMIT_USD") or 0)  # 0 = disabled
