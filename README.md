@@ -1,5 +1,7 @@
 # ВУТП Асистент · UTP Assistant
 
+**🌐 [utp-assistant.bg](https://utp-assistant.bg/)**
+
 **[Български](#български) · [English](#english)**
 
 ---
@@ -7,6 +9,8 @@
 ## Български
 
 **ВУТП Асистент** е чатбот на Висше училище по телекомуникации и пощи (ВУТП), който отговаря на въпроси на студенти, кандидат-студенти и всички, които се интересуват от университета.
+
+👉 Пробвайте го на **[utp-assistant.bg](https://utp-assistant.bg/)**.
 
 ### С какво помага
 
@@ -38,6 +42,8 @@
 ## English
 
 **UTP Assistant** is a chatbot for the University of Telecommunications and Post (UTP) in Sofia. It answers questions from students, applicants and anyone interested in the university.
+
+👉 Try it at **[utp-assistant.bg](https://utp-assistant.bg/)**.
 
 ### What it helps with
 
