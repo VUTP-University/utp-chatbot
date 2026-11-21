@@ -1,125 +1,71 @@
-# ВУТП ChatBot
+# ВУТП Асистент · UTP Assistant
 
-An AI-powered chatbot for the University of Telecommunications and Post (ВУТП / UTP), built to help students and applicants get instant answers about programs, admissions, fees, and campus life.
-
-## About
-
-The chatbot is powered by a DigitalOcean AI Agent connected to the university's knowledge base. It supports both **English** and **Bulgarian** and requires no registration to use.
-
-**Stack:**
-- **Frontend** — React + Vite, Tailwind CSS v4, i18next
-- **Backend** — Python, Flask, Flask-CORS
-- **AI** — DigitalOcean AI Agent (OpenAI-compatible API)
+**[Български](#български) · [English](#english)**
 
 ---
 
-## Prerequisites
+## Български
 
-- Python 3.11+
-- Node.js 18+
-- npm 9+
-- A DigitalOcean AI Agent (URL + API key)
+**ВУТП Асистент** е чатбот на Висше училище по телекомуникации и пощи (ВУТП), който отговаря на въпроси на студенти, кандидат-студенти и всички, които се интересуват от университета.
 
----
+### С какво помага
 
-## Project structure
+- **Специалности:** кои специалности се предлагат, в каква образователна степен и форма на обучение
+- **Прием:** информация за кандидатстване
+- **Такси и срокове:** семестриални и административни такси, срокове за плащане
+- **Контакти:** администрация, катедри и приемно време
+- **Учебен процес:** указания за курсови проекти, дипломни работи и магистърски тези
 
-```
-utp-chatbot/
-├── backend/     # Flask API
-└── frontend/    # React + Vite app
-```
+Асистентът отговаря на български и английски, по всяко време и без регистрация. Отговорите се основават на официалната информация, публикувана от ВУТП.
 
----
+### Цели на проекта
 
-## Backend setup
+- По-малко повтарящи се въпроси към администрацията
+- Бърз отговор за студенти и кандидат-студенти, без чакане
+- Достъп до университетската информация по всяко време и от всяко устройство
+- Практически пример за използване на изкуствен интелект в университетска среда
 
-```bash
-cd backend
-```
+### Важно
 
-Create and activate a virtual environment:
+Асистентът използва изкуствен интелект и може да греши. Преди важни решения проверявайте информацията на [utp.bg](https://www.utp.bg) или в Учебен отдел.
 
-```bash
-python -m venv venv
-source venv/bin/activate      # macOS/Linux
-venv\Scripts\activate         # Windows
-```
+### Отворен код
 
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Create a `.env` file in `backend/`:
-
-```env
-DO_AGENT_URL=https://your-agent-id.agents.do-ai.run
-DO_AGENT_KEY=your_api_key_here
-
-FLASK_ENV=development
-```
-
-Run the server:
-
-```bash
-python run.py
-```
-
-The API will be available at `http://localhost:5000`.
-
-### API endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/api/chat` | Send a message, get a response |
-| `GET` | `/api/history/<session_id>` | Get chat history for a session |
-| `DELETE` | `/api/history/<session_id>` | Clear session history |
-| `GET` | `/api/health` | Health check |
+Проектът е с отворен код. Ако забележите грешка или имате идея, отворете [issue](https://github.com/VUTP-University/utp-chatbot/issues) в GitHub.
 
 ---
 
-## Frontend setup
+## English
 
-```bash
-cd frontend
-```
+**UTP Assistant** is a chatbot for the University of Telecommunications and Post (UTP) in Sofia. It answers questions from students, applicants and anyone interested in the university.
 
-Install dependencies:
+### What it helps with
 
-```bash
-npm install
-```
+- **Programs:** which programs are offered, at which degree level and in which form of study
+- **Admissions:** information about applying
+- **Fees and deadlines:** semester and administrative fees, payment deadlines
+- **Contacts:** administration, departments and office hours
+- **Studies:** guidelines for coursework, bachelor's theses and master's theses
 
-Start the dev server:
+The assistant answers in Bulgarian and English, at any time and without an account. Its answers are based on official information published by UTP.
 
-```bash
-npm run dev
-```
+### Project goals
 
-The app will be available at `http://localhost:5173`. API requests to `/api/*` are proxied to the backend at `http://localhost:5000`.
+- Fewer repeated questions for the administration
+- Quick answers for students and applicants, without waiting
+- University information available at any time, from any device
+- A practical example of using AI in a university setting
 
-Build for production:
+### Please note
 
-```bash
-npm run build
-```
+The assistant uses AI and can make mistakes. Before making important decisions, check the information on [utp.bg](https://www.utp.bg) or with the Student Affairs office.
 
----
+### Open source
 
-## Environment variables
-
-| Variable | Description |
-|----------|-------------|
-| `DO_AGENT_URL` | Base URL of your DigitalOcean AI Agent |
-| `DO_AGENT_KEY` | API key for the AI Agent |
-| `FLASK_ENV` | `development` or `production` |
-| `MAX_HISTORY_PER_SESSION` | Optional. Max prior messages sent to the agent as context (default `20`) |
-| `AGENT_CONNECT_TIMEOUT` / `AGENT_READ_TIMEOUT` | Optional. Agent request timeouts in seconds (defaults `5` / `60`) |
+The project is open source. If you spot a mistake or have an idea, please open an [issue](https://github.com/VUTP-University/utp-chatbot/issues) on GitHub.
 
 ---
 
-## License
+## Лиценз · License
 
-GNU General Public License v3.0 (GPL-3.0)
+[GNU General Public License v3.0](LICENSE)
